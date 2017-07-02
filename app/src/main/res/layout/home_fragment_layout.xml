@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"></LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/home_function_group"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="@dimen/large_margin"
+        android:layout_marginRight="@dimen/large_margin"
+        android:layout_weight="3"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <verifysystem.company.com.verifysystem.ui.SinkButton
+            android:id="@+id/home_verify_engineering_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:layout_weight="4"
+            android:background="@drawable/home_verifyengineering_back"
+            android:button="@null"
+            android:checked="false"
+            android:gravity="center"
+
+            />
+
+        <verifysystem.company.com.verifysystem.ui.SinkButton
+            android:id="@+id/home_verify_equipment_management_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/normal_margin"
+            android:layout_weight="4"
+            android:background="@drawable/home_verifyequipmentmanagement_back"
+            android:button="@null"
+            android:checked="false"
+            android:gravity="center"
+
+            />
+
+        <verifysystem.company.com.verifysystem.ui.SinkButton
+            android:id="@+id/home_system_setting_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/normal_margin"
+            android:layout_weight="4"
+            android:background="@drawable/home_systemsetting_back"
+            android:button="@null"
+            android:checked="false"
+            android:gravity="center" />
+
+        <verifysystem.company.com.verifysystem.ui.SinkButton
+            android:id="@+id/home_about_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/normal_margin"
+            android:layout_weight="4"
+            android:background="@drawable/home_about_back"
+            android:button="@null"
+            android:checked="false"
+            android:gravity="center" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"></LinearLayout>
+
+</LinearLayout>

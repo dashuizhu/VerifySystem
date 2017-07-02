@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="@dimen/activity_vertical_margin"
+    android:layout_marginBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp">
+
+                <RadioGroup
+                    android:id="@+id/verify_data_one_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/verifydata_normal_rb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/view_padding"
+                        android:paddingRight="10dp"
+                        android:button="@null"
+                        android:checked="true"
+                        android:drawableLeft="@drawable/selector_radio_button_circle"
+                        android:gravity="center"
+                        android:padding="@dimen/view_padding"
+                        android:text="@string/verify_data_normal"
+                        style="@style/text_normal_white" />
+
+                    <RadioButton
+                        android:id="@+id/verify_data_opendoor_rb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="@dimen/view_padding"
+                        android:paddingRight="@dimen/view_padding"
+                        android:button="@null"
+                        android:drawableLeft="@drawable/selector_radio_button_circle"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="@string/verify_data_opendoor"
+                        style="@style/text_normal_white" />
+
+
+                    <RadioButton
+                        android:id="@+id/verify_data_outage_rb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:button="@null"
+                        android:drawableLeft="@drawable/selector_radio_button_circle"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:layout_marginRight="@dimen/view_padding"
+                        android:paddingRight="@dimen/view_padding"
+                        android:text="@string/verify_data_outage"
+                        style="@style/text_normal_white" />
+
+                </RadioGroup>
+
+                <RadioGroup
+                    android:id="@+id/verify_data_two_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/large_margin"
+                    android:layout_toRightOf="@+id/verify_data_one_group"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/verify_data_no_load_rb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="@dimen/view_padding"
+                        android:button="@null"
+                        android:drawableLeft="@drawable/selector_radio_button_circle"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="@string/verify_data_no_load"
+                        style="@style/text_normal_white" />
+
+                    <RadioButton
+                        android:id="@+id/verify_data_full_load_rb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:button="@null"
+                        android:drawableLeft="@drawable/selector_radio_button_circle"
+                        android:padding="10dp"
+                        android:text="@string/verify_data_full_load"
+                        style="@style/text_normal_white" />
+
+                </RadioGroup>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:gravity="center_vertical">
+
+                <!--温度-->
+                <TextView
+                    android:id="@+id/verify_data_temp_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/verify_data_button_height"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:text="@string/verify_data_temp"
+                    android:textColor="@color/textWhiteColor"
+                    android:textSize="@dimen/button_text_size" />
+
+                <Spinner
+                    android:id="@+id/verify_data_temp_start_spinner"
+                    android:layout_width="@dimen/verify_data_spinner_width"
+                    android:layout_height="@dimen/verify_data_spinner_height"
+                    android:layout_toRightOf="@+id/verify_data_temp_tv"
+                    android:entries="@array/temperature"
+                    style="@style/SpinnerStyle" />
+
+                <ImageView
+                    android:id="@+id/temp_line_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_toRightOf="@+id/verify_data_temp_start_spinner"
+                    android:gravity="center"
+                    android:src="@drawable/ic_remove_black_24dp" />
+
+                <Spinner
+                    android:id="@+id/verify_data_temp_stop_spinner"
+                    android:layout_width="@dimen/verify_data_spinner_width"
+                    android:layout_height="@dimen/verify_data_spinner_height"
+                    android:layout_toRightOf="@+id/temp_line_iv"
+                    android:entries="@array/temperature"
+                    style="@style/SpinnerStyle" />
+
+                <Button
+                    android:id="@+id/temp_confirm_btn"
+                    android:layout_width="60dp"
+                    android:layout_height="@dimen/verify_data_button_height"
+                    android:layout_marginLeft="@dimen/minimum_margin"
+                    android:layout_toRightOf="@+id/verify_data_temp_stop_spinner"
+                    android:background="@drawable/selector_button_back"
+                    android:gravity="center"
+                    android:text="确认"
+                    android:textColor="@color/textWhiteColor"
+                    android:textSize="@dimen/button_text_size" />
+                <!--温度-->
+                <!--湿度-->
+                <TextView
+                    android:id="@+id/verify_data_hum_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/verify_data_button_height"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/small_margin"
+                    android:layout_toRightOf="@+id/temp_confirm_btn"
+                    android:gravity="center"
+                    android:text="@string/verify_data_humidity"
+                    android:textColor="@color/textWhiteColor"
+                    android:textSize="@dimen/button_text_size" />
+
+                <Spinner
+                    android:id="@+id/verify_data_hum_start_spinner"
+                    android:layout_width="@dimen/verify_data_spinner_width"
+                    android:layout_height="@dimen/verify_data_spinner_height"
+                    android:layout_toRightOf="@+id/verify_data_hum_tv"
+                    android:entries="@array/humidity"
+                    style="@style/SpinnerStyle" />
+
+                <ImageView
+                    android:id="@+id/hum_line_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/verify_data_button_height"
+                    android:layout_toRightOf="@+id/verify_data_hum_start_spinner"
+                    android:gravity="center"
+                    android:src="@drawable/ic_remove_black_24dp" />
+
+                <Spinner
+                    android:id="@+id/verify_data_hum_stop_spinner"
+                    android:layout_width="@dimen/verify_data_spinner_width"
+                    android:layout_height="@dimen/verify_data_spinner_height"
+                    android:layout_toRightOf="@+id/hum_line_iv"
+                    android:entries="@array/humidity"
+                    style="@style/SpinnerStyle" />
+
+                <Button
+                    android:id="@+id/hum_confirm_btn"
+                    android:layout_width="60dp"
+                    android:layout_height="@dimen/verify_data_button_height"
+                    android:layout_marginLeft="@dimen/minimum_margin"
+                    android:layout_toRightOf="@+id/verify_data_hum_stop_spinner"
+                    android:background="@drawable/selector_button_back"
+                    android:gravity="center"
+                    android:text="确认"
+                    android:textColor="@color/textWhiteColor"
+                    android:textSize="@dimen/button_text_size" />
+
+                <!--湿度-->
+
+                <CheckBox
+                    android:id="@+id/cb_start_collect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/verify_data_button_height"
+                    android:layout_marginLeft="@dimen/normal_margin"
+                    android:layout_toRightOf="@+id/hum_confirm_btn"
+                    android:background="@drawable/selector_button_back"
+                    android:gravity="center"
+                    android:padding="@dimen/view_padding"
+                    android:text="@string/verify_data_start"
+                    android:button="@null"
+                    android:textColor="@drawable/text_selector2"
+                    android:textSize="@dimen/button_text_size" />
+
+                <CheckBox
+                    android:id="@+id/cb_stop_collect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/system_setting_item_height"
+                    android:layout_marginLeft="@dimen/small_margin"
+                    android:button="@null"
+                    android:layout_toRightOf="@+id/cb_start_collect"
+                    android:background="@drawable/selector_button_back"
+                    android:padding="@dimen/view_padding"
+                    android:gravity="center"
+                    android:text="@string/verify_data_stop"
+                    android:textColor="@drawable/text_selector"
+                    android:textSize="@dimen/button_text_size" />
+
+                <Button
+                    android:id="@+id/verify_data_clean"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/verify_data_button_height"
+                    android:layout_marginLeft="@dimen/small_margin"
+                    android:layout_toRightOf="@+id/cb_stop_collect"
+                    android:background="@drawable/selector_button_back"
+                    android:gravity="center"
+                    android:text="@string/label_data_clean"
+                    android:textColor="@color/textWhiteColor"
+                    android:textSize="@dimen/button_text_size" />
+
+                <Button
+                    android:id="@+id/verify_data_back_btn"
+                    android:layout_width="60dp"
+                    android:layout_height="@dimen/verify_data_button_height"
+                    android:layout_marginLeft="@dimen/small_margin"
+                    android:layout_toRightOf="@+id/verify_data_clean"
+                    android:background="@drawable/selector_button_back"
+                    android:gravity="center"
+                    android:text="返回"
+                    android:textColor="@color/textWhiteColor"
+                    android:textSize="@dimen/button_text_size" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/split_color" />
+
+            <LinearLayout
+                android:id="@+id/recycler_header"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/guide_color"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/split_color" />
+
+                <TextView
+                    android:id="@+id/verify_data_title_index"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="@string/verify_data_title_index"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/recycler_view_title_text_size" />
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/split_color" />
+
+                <TextView
+                    android:id="@+id/verify_data_title_no"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="10"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:text="@string/verify_data_title_no"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/recycler_view_title_text_size" />
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/split_color" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="10"
+                    android:gravity="center"
+                    android:text="@string/device_SN"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/recycler_view_title_text_size" />
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/split_color" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:gravity="center"
+                    android:text="@string/verify_data_title_temp"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/recycler_view_title_text_size" />
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/split_color" />
+
+                <TextView
+                    android:id="@+id/control_text"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:gravity="center"
+                    android:text="@string/verify_data_title_hum"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/recycler_view_title_text_size" />
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/split_color" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:gravity="center"
+                    android:text="@string/verify_data_title_voltage"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/recycler_view_title_text_size" />
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/split_color" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:gravity="center"
+                    android:text="@string/label_verify_data_time"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/recycler_view_title_text_size" />
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/split_color" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/split_color" />
+
+            <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
+                android:id="@+id/verify_data_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical"
+                app:fastScrollAutoHide="false"
+                app:fastScrollThumbColor="@color/colorPrimary"
+                android:background="@drawable/recyclerview_back"
+                android:overScrollMode="never" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/split_color" />
+
+</LinearLayout>

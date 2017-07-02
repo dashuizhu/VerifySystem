@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="verifysystem.company.com.verifysystem.activity.MainActivity">
+
+    <verifysystem.company.com.verifysystem.ui.TopTitleBar
+        android:id="@+id/top_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.7"></verifysystem.company.com.verifysystem.ui.TopTitleBar>
+
+    <RelativeLayout
+        android:id="@+id/main_container_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:background="@drawable/container_back">
+
+        <include
+            android:id="@+id/home_page_layout"
+            layout="@layout/home_fragment_layout" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/main_bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:background="@color/mainBottomBarBackColor">
+
+        <TextView
+            android:id="@+id/copyright_description_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/guide_tech"
+            android:textColor="@color/mainBottomTextColor"
+            android:textSize="@dimen/bottom_text_size" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/copyright_description_tv"
+            android:layout_alignStart="@+id/copyright_description_tv"
+            android:text="@string/guide_tech_english"
+            android:textColor="@color/mainBottomTextColor"
+            android:textSize="@dimen/bottom_small_text_size" />
+    </RelativeLayout>
+</LinearLayout>

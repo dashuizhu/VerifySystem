@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mainTopBarBackColor"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:id="@+id/top_left_title_bar_ly"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_vertical">
+
+        <RelativeLayout
+            android:id="@+id/top_left_title_bar_home_ly"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical">
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/normal_margin"
+                android:gravity="center_vertical"
+                android:text="@string/top_title_home_name"
+                android:textColor="@color/textWhiteColor"
+                android:textSize="@dimen/top_title_large_text_size" />
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:id="@+id/top_left_title_bar_function_ly"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:visibility="gone"
+            >
+
+            <LinearLayout
+                android:id="@+id/title_bar_back_ly"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:background="@drawable/selector_top_title_back"
+
+                >
+
+                <ImageButton
+                    android:id="@+id/title_bar_back_ib"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/minimum_margin"
+                    android:background="@drawable/arrow_left_white"
+                    android:clickable="true" />
+
+                <TextView
+                    android:id="@+id/title_bar_back_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/title_bar_back_ib"
+                    android:gravity="center_vertical"
+                    android:paddingRight="@dimen/small_margin"
+                    android:text="返回"
+                    android:textColor="@color/textWhiteColor"
+                    android:textSize="@dimen/top_title_large_text_size" />
+
+            </LinearLayout>
+
+
+            <ImageView
+                android:id="@+id/title_bar_function_icon_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/normal_margin"
+                android:layout_toRightOf="@+id/title_bar_back_ly"
+                />
+
+            <TextView
+                android:id="@+id/title_bar_function_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/top_title_item_height"
+                android:layout_toRightOf="@+id/title_bar_function_icon_iv"
+                android:gravity="center_vertical"
+                android:text="验证工程"
+                android:textColor="@color/textWhiteColor"
+                android:textSize="@dimen/top_title_large_text_size" />
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/top_right_title_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_device_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="100dp"
+            android:paddingRight="@dimen/view_padding"
+            android:layout_toRightOf="@+id/tv_app_name"
+            android:text="@string/label_device_unlink"
+            android:textColor="@color/textWhiteColor"
+            android:textSize="@dimen/top_title_large_text_size" />
+
+        <TextView
+            android:id="@+id/title_bar_clock_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="2017年4月15日 10:10"
+            android:textColor="@color/textWhiteColor"
+            android:textSize="@dimen/top_title_small_text_size" />
+
+
+
+        <ImageView
+            android:id="@+id/title_bar_wifi_level_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/normal_margin"
+            android:layout_toRightOf="@+id/title_bar_clock_tv"
+            android:src="@drawable/wifi_strength_level"
+            android:gravity="center_vertical" />
+
+        <RelativeLayout
+            android:id="@+id/title_bar_telephony_ly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/title_bar_wifi_level_iv">
+
+            <RelativeLayout
+                android:id="@+id/title_bar_has_simcard_ly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                >
+
+                <ImageView
+                    android:id="@+id/title_bar_signal_level_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/minimum_margin"
+                    android:src="@drawable/signal_strength_level" />
+
+                <ImageView
+                    android:id="@+id/title_bar_network_type_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/title_bar_signal_level_iv"
+                    android:background="@drawable/cellular_4g" />
+            </RelativeLayout>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/title_bar_no_simcard_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/minimum_margin"
+                android:gravity="center_vertical"
+                android:text="无SIM卡"
+                android:textColor="@color/textWhiteColor"
+                android:textSize="@dimen/top_title_small_text_size" />
+
+            />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/title_bar_battery_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/small_margin"
+            android:layout_marginRight="@dimen/view_padding"
+            android:layout_toRightOf="@+id/title_bar_telephony_ly"
+            android:src="@drawable/battery_nocharge_level" />
+    </LinearLayout>
+
+</LinearLayout>

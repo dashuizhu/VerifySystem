@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/layout_height"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/split_color" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        >
+
+    <View
+        android:layout_width="0.5dp"
+        android:layout_height="match_parent"
+        android:background="@color/split_color" />
+
+    <TextView
+        android:id="@+id/verify_project_index"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="@dimen/recycler_view_text_size"
+        android:textColor="@android:color/white" />
+
+    <View
+        android:layout_width="0.5dp"
+        android:layout_height="match_parent"
+        android:background="@color/split_color" />
+
+    <TextView
+        android:id="@+id/verify_report_name"
+        android:layout_width="0dp"
+        android:layout_weight="10"
+        android:layout_height="match_parent"
+        android:gravity="left|center_vertical"
+
+        android:paddingLeft="10dp"
+        android:text="@string/report_name"
+        android:textSize="@dimen/recycler_view_text_size"
+        android:textColor="@android:color/white" />
+
+    <View
+        android:layout_width="0.5dp"
+        android:layout_height="match_parent"
+        android:background="@color/split_color" />
+
+    <TextView
+        android:id="@+id/verify_report_object"
+        android:layout_width="0dp"
+        android:layout_weight="5"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/verify_object"
+        android:textSize="@dimen/recycler_view_text_size"
+        android:textColor="@android:color/white" />
+
+    <View
+        android:layout_width="0.5dp"
+        android:layout_height="match_parent"
+        android:background="@color/split_color" />
+
+    <TextView
+        android:id="@+id/verify_report_attribute"
+        android:layout_width="0dp"
+        android:layout_weight="3"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/report_type"
+        android:textSize="@dimen/recycler_view_text_size"
+        android:textColor="@android:color/white" />
+
+
+    <LinearLayout
+        android:id="@+id/verify_linear"
+        android:layout_width="0dp"
+        android:layout_weight="18"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="@color/split_color" />
+
+        <TextView
+            android:id="@+id/check_layout_plan_text"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="@string/check_layout_plan"
+            android:textSize="@dimen/recycler_view_text_size"
+            android:textColor="@android:color/white" />
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="@color/split_color" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
+
+            <LinearLayout
+                android:id="@+id/verify_control_linear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:background="@drawable/selector_button_back"
+                android:paddingLeft="@dimen/normal_padding"
+                android:paddingRight="@dimen/normal_padding"
+                android:paddingTop="@dimen/small_padding"
+                android:paddingBottom="@dimen/small_padding"
+                >
+                <ImageView
+                    android:id="@+id/verify_control_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/play_white"
+                    android:scaleType="center"
+                    android:focusable="false"
+                    />
+
+                <TextView
+                    android:id="@+id/verify_control_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:focusable="false"
+                    android:text="@string/start_verify"
+                    android:textSize="@dimen/recycler_view_small_text_size"
+                    android:textColor="@android:color/white" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="@color/split_color" />
+
+        <TextView
+            android:id="@+id/check_verify_data_text"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/check_verify_data"
+            android:textSize="@dimen/recycler_view_text_size"
+            android:textColor="@android:color/white" />
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="@color/split_color" />
+
+        <TextView
+            android:id="@+id/delete_text"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/text_delete"
+            android:textSize="@dimen/recycler_view_text_size"
+            android:textColor="@android:color/white" />
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="0.5dp"
+        android:layout_height="match_parent"
+        android:background="@color/split_color" />
+
+    <TextView
+        android:id="@+id/verify_status"
+        android:layout_width="0dp"
+        android:layout_weight="3"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/status"
+        android:textSize="@dimen/recycler_view_text_size"
+        android:textColor="@android:color/white" />
+
+    <View
+        android:layout_width="0.5dp"
+        android:layout_height="match_parent"
+        android:background="@color/split_color"
+        />
+
+    </LinearLayout>
+
+</LinearLayout>

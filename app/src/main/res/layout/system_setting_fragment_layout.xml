@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:com.android.support="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center_vertical">
+
+        <LinearLayout
+            android:id="@+id/syn_time_ly"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/large_margin"
+            android:background="@drawable/selector_button_back"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:padding="@dimen/normal_padding">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/cloud_download_white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/syn_time"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/button_text_size" />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/system_data_collect_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/system_setting_item_height"
+                android:gravity="center_vertical"
+                android:text="@string/system_data_collect"
+                android:textColor="@color/textWhiteColor"
+                android:textSize="@dimen/about_text_size" />
+
+            <Spinner
+                android:id="@+id/collect_spinner"
+                style="@style/SpinnerStyle"
+                android:layout_width="100dp"
+                android:layout_height="@dimen/system_setting_item_height"
+                android:layout_alignBottom="@+id/system_data_collect_tv"
+                android:layout_toRightOf="@+id/system_data_collect_tv"
+                android:entries="@array/minutes" />
+
+            <EditText
+                android:id="@+id/et_time_collect"
+                android:layout_width="70dp"
+                android:gravity="center"
+                android:inputType="number"
+                android:digits="0123456789"
+                android:maxLength="2"
+                android:background="@color/colorWhite"
+                android:layout_alignBottom="@+id/system_data_collect_tv"
+                android:layout_toRightOf="@+id/system_data_collect_tv"
+                android:layout_height="30dp" />
+
+
+            <Button
+                android:id="@+id/data_collect_save_btn"
+                android:layout_width="60dp"
+                android:layout_height="@dimen/system_setting_item_height"
+                android:layout_alignBottom="@+id/collect_spinner"
+                android:layout_marginLeft="@dimen/small_margin"
+                android:layout_toRightOf="@+id/collect_spinner"
+                android:background="@drawable/selector_button_back"
+                android:gravity="center"
+                android:text="保存"
+                android:textColor="@color/textWhiteColor"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin"
+            android:visibility="gone"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/system_data_storage_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/system_setting_item_height"
+                android:text="@string/system_data_storage"
+                android:textColor="@color/textWhiteColor"
+                android:textSize="@dimen/about_text_size" />
+
+            <Spinner
+                android:id="@+id/storage_spinner"
+                style="@style/SpinnerStyle"
+                android:layout_width="100dp"
+                android:layout_height="@dimen/system_setting_item_height"
+                android:layout_alignBottom="@+id/system_data_storage_tv"
+                android:layout_toRightOf="@+id/system_data_storage_tv"
+                android:entries="@array/minutes" />
+
+            <Button
+                android:id="@+id/data_storage_save_btn"
+                android:layout_width="60dp"
+                android:layout_height="@dimen/system_setting_item_height"
+                android:layout_alignBottom="@+id/storage_spinner"
+                android:layout_marginLeft="@dimen/small_margin"
+                android:layout_toRightOf="@+id/storage_spinner"
+                android:background="@drawable/selector_button_back"
+                android:gravity="center"
+                android:text="保存"
+                android:textColor="@color/textWhiteColor"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/system_data_delayed_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/system_setting_item_height"
+                android:text="@string/system_data_delayed"
+                android:textColor="@color/textWhiteColor"
+                android:textSize="@dimen/about_text_size" />
+
+            <Spinner
+                android:id="@+id/delayed_spinner"
+                style="@style/SpinnerStyle"
+                android:layout_width="100dp"
+                android:layout_height="@dimen/system_setting_item_height"
+                android:layout_alignBottom="@+id/system_data_delayed_tv"
+                android:layout_toRightOf="@+id/system_data_delayed_tv"
+                android:entries="@array/minutes" />
+
+            <EditText
+                android:id="@+id/et_time_delay"
+                android:layout_width="70dp"
+                android:gravity="center"
+                android:inputType="number"
+                android:digits="0123456789"
+                android:maxLength="2"
+                android:background="@color/colorWhite"
+                android:layout_alignBottom="@+id/system_data_delayed_tv"
+                android:layout_toRightOf="@+id/system_data_delayed_tv"
+                android:layout_height="30dp" />
+
+            <Button
+                android:id="@+id/data_delayed_save_btn"
+                android:layout_width="60dp"
+                android:layout_height="@dimen/system_setting_item_height"
+                android:layout_alignBottom="@+id/delayed_spinner"
+                android:layout_marginLeft="@dimen/small_margin"
+                android:layout_toRightOf="@+id/delayed_spinner"
+                android:background="@drawable/selector_button_back"
+                android:gravity="center"
+                android:text="保存"
+                android:textColor="@color/textWhiteColor"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/normal_margin">
+
+            <Button
+                android:id="@+id/system_setting_btn"
+                android:layout_width="80dp"
+                android:layout_height="35dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/selector_button_back"
+                android:gravity="center"
+                android:text="系统设置"
+                android:textColor="@color/textWhiteColor"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

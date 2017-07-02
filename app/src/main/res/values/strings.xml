@@ -1,0 +1,154 @@
+<resources>
+    <string name="app_name">验证系统</string>
+
+    <string name="top_title_home_name">验证管理系统</string>
+    <string name="top_title_verify_engineering">验证工程</string>
+    <string name="top_title_verify_equipment_management">验证设备管理</string>
+    <string name="top_title_system_setting">系统设置</string>
+    <string name="top_title_about">关于</string>
+
+    <!-- 关于 -->
+    <string name="about_device">关于本机：</string>
+    <string name="machine_model">型号：GD-VIM10</string>
+    <string name="device_number">编号：XXXXXXXX</string>
+    <string name="contact_us">联系我们：</string>
+    <string name="address">地址：山东省烟台市明达西路11号</string>
+    <string name="phone">电话：0535-2103000</string>
+    <!-- 关于 -->
+
+    <!-- 设置 -->
+    <string name="system_data_collect">数据采集频率(分钟)：</string>
+    <string name="system_data_storage">数据存储频率(分钟)：</string>
+    <string name="system_data_delayed">数据采集延时(分钟)：</string>
+    <!-- 设置 -->
+
+    <!-- 验证工程 -->
+    <string name="verify_type_all">全部</string>
+    <string name="verify_attribute_incubators">保温箱</string>
+    <string name="verify_attribute_refrigerated_car">冷藏车</string>
+    <string name="verify_attribute_cold_stores">冷库</string>
+
+    <string name="report_no">序号</string>
+    <string name="report_name">报告名称</string>
+    <string name="report_verify_object">验证对象</string>
+    <string name="report_attribute">属性</string>
+    <string name="report_operation">操作</string>
+    <string name="report_status">状态</string>
+
+    <string name="report_status_not_start">未开始</string>
+    <string name="report_status_progressing">进行中</string>
+    <string name="report_status_finfished">已完成</string>
+    <!-- 验证工程 -->
+
+    <!-- 查看验证数据 -->
+    <string name="verify_data_all">全部数据</string>
+    <string name="verify_data_normal">正常数据</string>
+    <string name="verify_data_outage">断电数据</string>
+    <string name="verify_data_opendoor">开门数据</string>
+    <string name="verify_data_no_load">空载数据</string>
+    <string name="verify_data_full_load">满载数据</string>
+
+    <string name="verify_data_temp">温度：</string>
+    <string name="verify_data_humidity">湿度：</string>
+    <string name="verify_data_start">开始采集</string>
+    <string name="verify_data_stop">停止采集</string>
+
+    <string name="verify_data_title_index">序号</string>
+    <string name="verify_data_title_no">验证编号</string>
+    <string name="verify_data_title_device_id">设备ID</string>
+    <string name="verify_data_title_temp">温度（℃）</string>
+    <string name="verify_data_title_hum">湿度（%）</string>
+    <string name="verify_data_title_voltage">电压（V）</string>
+
+    <!-- 查看验证数据 -->
+
+    <!-- 验证设备管理 -->
+    <string name="device_no">序号</string>
+    <string name="device_status">状态</string>
+    <string name="device_SN">SN号</string>
+    <string name="device_model">型号</string>
+    <string name="device_verify_unit">校验单位</string>
+    <string name="device_certificateNo">证书编号</string>
+    <string name="device_valid_date">有效期</string>
+
+    <string name="device_status_online">在线</string>
+    <string name="device_status_offline">离线</string>
+
+    <!-- 验证设备管理 -->
+
+    <string name="twoG">2G</string>
+    <string name="threeG">3G</string>
+    <string name="FourG">4G</string>
+
+    <!--  华丽的分割线  -->
+
+    <string name="verification_system">验 证 管 理 系 统</string>
+    <string name="guide_tech">山东贵德信息科技有限公司</string>
+    <string name="guide_tech_english">Shandong your DE Information technology co.  LTD</string>
+    <string name="text_back">返回</string>
+    <string name="verify_project">验证工程</string>
+    <string name="verify_device_manage">验证设备管理</string>
+    <string name="system_settings">系统设置</string>
+    <string name="about_guide">关于</string>
+
+    <string name="text_all">全部</string>
+    <string name="cooler_box">保温箱</string>
+    <string name="refrigerated_truck">冷藏车</string>
+    <string name="cold_storage">冷库</string>
+    <string name="syn_date">同步数据</string>
+    <string name="syn_device">同步设备</string>
+    <string name="syn_time">同步时间</string>
+
+    <string name="index">序号</string>
+    <string name="verify_object">验证对象</string>
+    <string name="report_type">属性</string>
+    <string name="control">操作</string>
+    <string name="status">状态</string>
+    <string name="check_layout_plan">查看布点方案</string>
+    <string name="start_verify">开始验证</string>
+    <string name="stop_verity">停止验证</string>
+    <string name="check_verify_data">查看验证数据</string>
+    <string name="text_delete">删除</string>
+    <string name="text_unstart">未开始</string>
+    <string name="text_doing">进行中</string>
+    <string name="text_done">已完成</string>
+
+    <string name="sn_number">SN号</string>
+    <string name="model_type">型号</string>
+    <string name="verify_company">校验单位</string>
+    <string name="certificate_number">证书编号</string>
+    <string name="validity">有效期</string>
+    <string name="text_online">在线</string>
+    <string name="text_offline">离线</string>
+    <string name="sn_number_demo">D945892045538569</string>
+    <string name="model_type_demo">GD-1689</string>
+    <string name="verify_company_demo">山东省烟台市计量所</string>
+    <string name="certificate_number_demo">D945892045538569</string>
+    <string name="validity_demo">2017-09-26</string>
+
+    <string name="system_time">系统时间:</string>
+    <string name="system_save">保存</string>
+    <string name="data_acquisition_frequency">数据采集频率:</string>
+    <string name="data_storage_frequency">数据存储频率:</string>
+    <string name="about_this_device">关于本机:</string>
+    <string name="number">编号</string>
+    <string name="telephone">电话:0535-2103000</string>
+    <string name="guide_tel">0535-2103000</string>
+    <string name="guide_address">山东省烟台市明达西路11号</string>
+    <string name="toast_loading">加载中....</string>
+    <string name="toast_must_bigger_min">必须高于低值</string>
+    <string name="toast_setTime_success">设置时间成功</string>
+    <string name="toast_setDevice_success">发送设备id成功</string>
+    <string name="text_voltage_err">ERR</string>
+    <string name="toast_upload_success">上传数据成功</string>
+    <string name="toast_empty">数据为空</string>
+    <string name="label_device_unlink">未连接</string>
+    <string name="label_device_linking">连接中...</string>
+    <string name="label_device_linked">已连接</string>
+    <string name="label_data_clean">清空数据</string>
+    <string name="label_verify_data_time">时间</string>
+    <string name="toast_sync_success">同步成功</string>
+    <string name="toast_sync_empty">同步成功，数据为空</string>
+    <string name="toast_time_error">时间不能小于1分钟</string>
+    <string name="toast_time_empty_error">不能为空</string>
+</resources>

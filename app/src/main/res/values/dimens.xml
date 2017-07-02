@@ -1,0 +1,54 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="top_title_large_text_size">20sp</dimen>
+    <dimen name="top_title_normal_text_size">18sp</dimen>
+    <dimen name="top_title_small_text_size">16sp</dimen>
+    <dimen name="bottom_text_size">14sp</dimen>
+    <dimen name="bottom_small_text_size">7.5sp</dimen>
+    <dimen name="about_text_size">16sp</dimen>
+    <dimen name="list_view_text_size">10sp</dimen>
+    <dimen name="button_text_size">14sp</dimen>
+
+
+    <dimen name="recycler_view_title_text_size">14sp</dimen>
+    <dimen name="recycler_view_text_size">12sp</dimen>
+    <dimen name="recycler_view_small_text_size">10sp</dimen>
+
+
+    <dimen name="top_title_item_height">40dp</dimen>
+
+    <dimen name="layout_height">45dp</dimen>
+
+    <dimen name="large_padding">10dp</dimen>
+    <dimen name="normal_padding">6dp</dimen>
+    <dimen name="small_padding">3dp</dimen>
+    <dimen name="minimum_margin">10dp</dimen>
+    <dimen name="small_margin">20dp</dimen>
+    <dimen name="normal_margin">30dp</dimen>
+    <dimen name="large_margin">50dp</dimen>
+
+    <dimen name="verify_radio_button_width">65dp</dimen>
+    <dimen name="verify_radio_button_height">40dp</dimen>
+
+    <dimen name="list_view_item_width">50dp</dimen>
+    <dimen name="list_view_item_height">45dp</dimen>
+
+    <dimen name="system_setting_item_height">30dp</dimen>
+
+
+    <dimen name="verify_engineering_list_first_column_width">20dp</dimen>
+    <dimen name="verify_engineering_list_second_column_width">150dp</dimen>
+    <dimen name="verify_engineering_list_third_column_width">100dp</dimen>
+    <dimen name="verify_engineering_list_fourth_column_width">60dp</dimen>
+    <dimen name="verify_engineering_list_fifth_column_width">200dp</dimen>
+    <dimen name="verify_engineering_list_sixth_column_width">60dp</dimen>
+
+    <dimen name="verify_data_spinner_width">55dp</dimen>
+    <dimen name="verify_data_spinner_height">30dp</dimen>
+    <dimen name="verify_data_radio_button_width">80dp</dimen>
+    <dimen name="verify_data_button_height">30dp</dimen>
+    <dimen name="view_padding">6dp</dimen>
+</resources>

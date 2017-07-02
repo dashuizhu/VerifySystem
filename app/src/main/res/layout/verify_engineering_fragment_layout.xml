@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="@dimen/activity_vertical_margin"
+    android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="center_vertical">
+
+                <RadioGroup
+                    android:id="@+id/verify_report_attribute_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <verifysystem.company.com.verifysystem.ui.SinkRadioButton
+                        android:id="@+id/verify_report_attribute_all_rb"
+                        android:layout_width="@dimen/verify_radio_button_width"
+                        android:layout_height="@dimen/verify_radio_button_height"
+                        android:layout_gravity="right"
+                        android:background="@drawable/selector_radio_button"
+                        android:button="@null"
+                        android:checked="true"
+                        android:gravity="center"
+                        android:text="@string/verify_type_all"
+                        android:textColor="@color/textWhiteColor"
+                        android:textSize="@dimen/button_text_size" />
+
+                    <verifysystem.company.com.verifysystem.ui.SinkRadioButton
+                        android:id="@+id/verify_report_attribute_incubators_rb"
+                        android:layout_width="@dimen/verify_radio_button_width"
+                        android:layout_height="@dimen/verify_radio_button_height"
+                        android:layout_marginLeft="@dimen/minimum_margin"
+                        android:background="@drawable/selector_radio_button"
+                        android:button="@null"
+                        android:checked="false"
+                        android:gravity="center"
+                        android:text="@string/verify_attribute_incubators"
+                        android:textColor="@color/textWhiteColor"
+                        android:textSize="@dimen/button_text_size"
+
+                        />
+
+                    <verifysystem.company.com.verifysystem.ui.SinkRadioButton
+                        android:id="@+id/verify_report_attribute_refrigerated_car_rb"
+                        android:layout_width="@dimen/verify_radio_button_width"
+                        android:layout_height="@dimen/verify_radio_button_height"
+                        android:layout_marginLeft="@dimen/minimum_margin"
+                        android:background="@drawable/selector_radio_button"
+                        android:button="@null"
+                        android:checked="false"
+                        android:gravity="center"
+                        android:text="@string/verify_attribute_refrigerated_car"
+                        android:textColor="@color/textWhiteColor"
+                        android:textSize="@dimen/button_text_size" />
+
+                    <verifysystem.company.com.verifysystem.ui.SinkRadioButton
+                        android:id="@+id/verify_report_attribute_cold_stores_rb"
+                        android:layout_width="@dimen/verify_radio_button_width"
+                        android:layout_height="@dimen/verify_radio_button_height"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/minimum_margin"
+                        android:background="@drawable/selector_radio_button"
+                        android:button="@null"
+                        android:checked="false"
+                        android:gravity="center"
+                        android:text="@string/verify_attribute_cold_stores"
+                        android:textColor="@color/textWhiteColor"
+                        android:textSize="@dimen/button_text_size" />
+
+                </RadioGroup>
+
+                <Button
+                    android:id="@+id/btn_sync"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/selector_button_back"
+                    android:drawableLeft="@drawable/cloud_download_white"
+                    android:drawablePadding="@dimen/view_padding"
+                    android:paddingLeft="@dimen/view_padding"
+                    android:paddingRight="@dimen/view_padding"
+                    android:text="@string/syn_date"
+                    style="@style/text_normal_white"/>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/split_color" />
+
+            <LinearLayout
+                android:id="@+id/recycler_header"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/guide_color"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/split_color" />
+
+                <TextView
+                    android:id="@+id/verify_project_index"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="@string/index"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/recycler_view_title_text_size" />
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/split_color" />
+
+                <TextView
+                    android:id="@+id/verify_report_name"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="10"
+                    android:gravity="left|center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="@string/report_name"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/recycler_view_title_text_size" />
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/split_color" />
+
+                <TextView
+
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:gravity="center"
+                    android:text="@string/verify_object"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/recycler_view_title_text_size" />
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/split_color" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text="@string/report_type"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/recycler_view_title_text_size" />
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/split_color" />
+
+                <TextView
+                    android:id="@+id/control_text"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="18"
+                    android:gravity="center"
+                    android:text="@string/control"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/recycler_view_title_text_size" />
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/split_color" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text="@string/status"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/recycler_view_title_text_size" />
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/split_color" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/split_color" />
+
+            <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
+                android:id="@+id/verify_project_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical"
+                app:fastScrollAutoHide="false"
+                app:fastScrollThumbColor="@color/colorPrimary"
+                android:background="@drawable/recyclerview_back"
+                android:overScrollMode="never" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/split_color" />
+
+</LinearLayout>

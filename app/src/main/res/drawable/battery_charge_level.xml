@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:maxLevel="100" android:minLevel="80" android:drawable="@drawable/battery100_charge_icon" />
+    <item android:maxLevel="80" android:minLevel="60" android:drawable="@drawable/battery75_charge_icon" />
+    <item android:maxLevel="60" android:minLevel="40" android:drawable="@drawable/battery50_charge_icon" />
+    <item android:maxLevel="40" android:minLevel="20" android:drawable="@drawable/battery25_charge_icon" />
+    <item android:maxLevel="20" android:minLevel="0" android:drawable="@drawable/battery0_charge_icon" />
+</level-list>
+
+   

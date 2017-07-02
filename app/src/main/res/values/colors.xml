@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#ed150a</color>
+    <color name="colorRed">#FFF30505</color>
+    <color name="colorGery">#FFe6e6e6</color>
+    <color name="colorWhite">#FFFFFF</color>
+
+    <color name="mainTopBarBackColor">#353E4D</color>
+    <color name="mainBottomBarBackColor">#191D26</color>
+    <color name="mainBottomTextColor">#757575</color>
+    <color name="mainContainerColor">#475363</color>
+
+    <color name="textWhiteColor">#FFFFFF</color>
+    <color name="textBlackColor">#000000</color>
+
+    <color name="radioButtonChecked">#313A43</color>
+    <color name="radioButtonUnChecked">#3E4756</color>
+
+    <color name="list_view_line">#3E4854</color>
+    <color name="list_view_back">#38404D</color>
+    <color name="list_view_title_back">#313A43</color>
+
+    <color name="verify_report_not_start">#4E555F</color>
+    <color name="verify_report_progressing">#C3F66D</color>
+
+    <color name="split_color">#FFe6e6e6</color>
+    <color name="guide_color">#FF1B212D</color>
+    <color name="radio_button_checked">#FF3C3F41</color>
+
+
+    <color name="colorTempWarm">#7f16e1</color>
+    <color name="colorHumWarm">#cc5e1a</color>
+
+</resources>
