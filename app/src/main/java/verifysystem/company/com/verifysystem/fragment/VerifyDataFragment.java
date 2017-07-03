@@ -1,9 +1,9 @@
 package verifysystem.company.com.verifysystem.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,12 +30,12 @@ import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import verifysystem.company.com.verifysystem.AppApplication;
 import verifysystem.company.com.verifysystem.R;
 import verifysystem.company.com.verifysystem.activity.MainActivity;
 import verifysystem.company.com.verifysystem.adapter.VerifyDataAdapter;
+import verifysystem.company.com.verifysystem.database.RecordDao;
 import verifysystem.company.com.verifysystem.eventbus.Event;
 import verifysystem.company.com.verifysystem.global.Constant;
 import verifysystem.company.com.verifysystem.model.DeviceBean;
@@ -43,6 +43,7 @@ import verifysystem.company.com.verifysystem.model.NetworkResult;
 import verifysystem.company.com.verifysystem.model.RecordBean;
 import verifysystem.company.com.verifysystem.network.AppModel;
 import verifysystem.company.com.verifysystem.network.CustomException;
+import verifysystem.company.com.verifysystem.services.UploadService;
 import verifysystem.company.com.verifysystem.utils.LogUtils;
 import verifysystem.company.com.verifysystem.utils.SharedPreferencesUser;
 
@@ -85,6 +86,8 @@ public class VerifyDataFragment extends BaseFragment {
     //显示在列表中
     private Unbinder mUnbinder;
 
+    private long mLastClickId;
+
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
@@ -102,6 +105,10 @@ public class VerifyDataFragment extends BaseFragment {
         initData();
         initCollectBtnEnable();
         EventBus.getDefault().registerSticky(this);
+
+        //启动service 补传数据
+        Intent intent = new Intent(getContext(), UploadService.class);
+        getActivity().startService(intent);
         return rootView;
     }
 
@@ -262,8 +269,7 @@ public class VerifyDataFragment extends BaseFragment {
         mRadioTwoGroup = (RadioGroup) rootView.findViewById(R.id.verify_data_two_group);
         mRadioTwoGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override public void onCheckedChanged(RadioGroup radioGroup, int itemId) {
-                loadDataByTwoGroup(itemId);
-                mVerifyDataAdapter.notifyDataSetChanged();
+                //loadDataByTwoGroup(itemId);
             }
         });
 
@@ -310,12 +316,16 @@ public class VerifyDataFragment extends BaseFragment {
     }
 
     private void loadDataByOneGroup(int itemId) {
+        if (itemId == mLastClickId){
+            return;
+        }
+        mLastClickId = itemId;
         switch (itemId) {
             case R.id.verifydata_normal_rb:
                 AppApplication.getDeivceManager().setRecordType(RecordBean.TYPE_NORMAL);
                 SharedPreferencesUser.put(getContext(), SharedPreferencesUser.KEY_RECORD_TYPE,
                         RecordBean.TYPE_NORMAL);
-                mCbStopCollect.setChecked(true);
+                mCbStopCollect.setChecked(false);
                 break;
             case R.id.verify_data_opendoor_rb:
                 AppApplication.getDeivceManager().setRecordType(RecordBean.TYPE_NORMAL);
@@ -333,16 +343,16 @@ public class VerifyDataFragment extends BaseFragment {
         mVerifyDataAdapter.notifyDataSetChanged();
     }
 
-    private void loadDataByTwoGroup(int itemId) {
-        switch (itemId) {
-            case R.id.verify_data_no_load_rb:
-                break;
-            case R.id.verify_data_full_load_rb:
-                break;
-            default:
-                break;
-        }
-    }
+    //private void loadDataByTwoGroup(int itemId) {
+    //    switch (itemId) {
+    //        case R.id.verify_data_no_load_rb:
+    //            break;
+    //        case R.id.verify_data_full_load_rb:
+    //            break;
+    //        default:
+    //            break;
+    //    }
+    //}
 
     @OnClick({
             R.id.temp_confirm_btn, R.id.hum_confirm_btn
@@ -397,35 +407,52 @@ public class VerifyDataFragment extends BaseFragment {
                 SharedPreferencesUser.KEY_TIME_COLLECT_MINUTE, 5);
         LogUtils.d(TAG, " 开始Collect 间隔时间分钟 " + collectTime);
         mCollectSubscription = Observable.interval(collectTime, TimeUnit.MINUTES)
-                .flatMap(new Func1<Long, Observable<NetworkResult>>() {
-                    @Override public Observable<NetworkResult> call(Long aLong) {
-                        LogUtils.writeLogToFile(TAG, " startCollect 开始准备上传 上传次数 " + aLong);
-                        if (allRecordBeanList.size() > 0) {
-                            return mAppModel.uploadData(allRecordBeanList);
-                        }
-                        return null;
-                    }
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<NetworkResult>() {
+                .subscribe(new Subscriber<Long>() {
                     @Override public void onCompleted() {
 
                     }
 
-                    @Override public void onError(Throwable e) {
-                        showToast(e.getMessage());
+                    @Override public void onError(Throwable throwable) {
+
                     }
 
-                    @Override public void onNext(NetworkResult networkResult) {
-                        if (networkResult.isNetworkSuccess()) {
-                            showToast(R.string.toast_upload_success);
-                        } else {
-                            onError(new CustomException(networkResult.getType(),
-                                    networkResult.getMessage()));
-                        }
+                    @Override public void onNext(Long aLong) {
+                        LogUtils.writeLogToFile(TAG, " startCollect 开始准备上传 上传次数 " + aLong);
+                        uploadRecord();
                     }
                 });
+    }
+
+    /**
+     * 开始上传
+     */
+    private void uploadRecord() {
+        if (allRecordBeanList!=null && allRecordBeanList.size() > 0) {
+            mAppModel.uploadData(allRecordBeanList)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<NetworkResult>() {
+                        @Override public void onCompleted() {
+
+                        }
+
+                        @Override public void onError(Throwable e) {
+                            showToast(e.getMessage());
+                            RecordDao.saveOrUpdates(allRecordBeanList);
+                        }
+
+                        @Override public void onNext(NetworkResult networkResult) {
+                            if (networkResult.isNetworkSuccess()) {
+                                if (!getActivity().isFinishing()) {
+                                    showToast(R.string.toast_upload_success);
+                                }
+                            } else {
+                                onError(new CustomException(networkResult.getType(),
+                                        networkResult.getMessage()));
+                            }
+                        }
+                    });
+        }
     }
 
     /**

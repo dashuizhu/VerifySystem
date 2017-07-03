@@ -32,7 +32,7 @@ public class VerifyDeviceAdapter
         holder.tv_deivce_checkUnit.setText(deviceBean.getCheckUnit());
         holder.tv_deivce_types.setText(deviceBean.getTypes());
         holder.tv_device_certificateNo.setText(deviceBean.getCertificateNo());
-        holder.tv_device_validDate.setText(deviceBean.getValidDate());
+        holder.tv_device_validDate.setText(deviceBean.getCreateDate());
 
         holder.verify_device_index.setText(deviceBean.getNo());
         if (deviceBean.isOnlone()) {

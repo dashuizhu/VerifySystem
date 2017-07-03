@@ -22,6 +22,9 @@ public class ConnectBluetoothImpl implements IConnectInterface {
 	public boolean connect(String address, String pwd) {
 		// TODO Auto-generated method stub
 		adapter = BluetoothAdapter.getDefaultAdapter();
+		if (adapter==null) {
+			return false;
+		}
 		mBluetoothDevice = adapter.getRemoteDevice(address);
 		BTchat.connect(mBluetoothDevice);
 		return true;

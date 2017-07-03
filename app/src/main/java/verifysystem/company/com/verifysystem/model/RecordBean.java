@@ -26,6 +26,8 @@ public class RecordBean {
      * style : 据类型(1：断电； 2：开门； 3：环境)
      */
 
+    private String id;
+
     private String snNo;
     private String reportNo;
     private float temperature;
