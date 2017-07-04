@@ -67,6 +67,8 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="c05c9a0ae92fa7ae610c8a23463851f040c6d42c" />
+
+        <service android:name=".services.UploadService"></service>
     </application>
 
 </manifest>

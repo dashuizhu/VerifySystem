@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import butterknife.BindView;
@@ -51,7 +52,8 @@ import verifysystem.company.com.verifysystem.utils.SharedPreferencesUser;
  * Created by hasee on 2017/5/05.
  * 查看验证数据页面
  */
-public class VerifyDataFragment extends BaseFragment {
+public class VerifyDataFragment extends BaseFragment implements
+        CompoundButton.OnCheckedChangeListener {
     @BindView(R.id.cb_start_collect) CheckBox mCbStartCollect;
     @BindView(R.id.cb_stop_collect) CheckBox mCbStopCollect;
     private Context mContext;
@@ -313,6 +315,10 @@ public class VerifyDataFragment extends BaseFragment {
         mTempStopSpinner.setSelection(max_temp_position);
         mHumStartSpinner.setSelection(min_hum_position);
         mHumStopSpinner.setSelection(max_hum_position);
+
+        mCbStartCollect.setOnCheckedChangeListener(this);
+        mCbStopCollect.setOnCheckedChangeListener(this);
+
     }
 
     private void loadDataByOneGroup(int itemId) {
@@ -325,19 +331,19 @@ public class VerifyDataFragment extends BaseFragment {
                 AppApplication.getDeivceManager().setRecordType(RecordBean.TYPE_NORMAL);
                 SharedPreferencesUser.put(getContext(), SharedPreferencesUser.KEY_RECORD_TYPE,
                         RecordBean.TYPE_NORMAL);
-                mCbStopCollect.setChecked(false);
+                mCbStopCollect.setChecked(true);
                 break;
             case R.id.verify_data_opendoor_rb:
                 AppApplication.getDeivceManager().setRecordType(RecordBean.TYPE_NORMAL);
                 SharedPreferencesUser.put(getContext(), SharedPreferencesUser.KEY_RECORD_TYPE,
                         RecordBean.TYPE_OPEN);
-                mCbStopCollect.setChecked(false);
+                mCbStopCollect.setChecked(true);
                 break;
             case R.id.verify_data_outage_rb:
                 AppApplication.getDeivceManager().setRecordType(RecordBean.TYPE_NORMAL);
                 SharedPreferencesUser.put(getContext(), SharedPreferencesUser.KEY_RECORD_TYPE,
                         RecordBean.TYPE_BLACK_OUT);
-                mCbStopCollect.setChecked(false);
+                mCbStopCollect.setChecked(true);
                 break;
         }
         mVerifyDataAdapter.notifyDataSetChanged();
@@ -377,11 +383,11 @@ public class VerifyDataFragment extends BaseFragment {
         }
     }
 
-    @OnCheckedChanged({ R.id.cb_start_collect, R.id.cb_stop_collect })
-    public void onCheck(CheckBox view) {
-        switch (view.getId()) {
+
+    @Override public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        switch (buttonView.getId()) {
             case R.id.cb_start_collect:
-                if (view.isChecked()) {
+                if (buttonView.isChecked()) {
                     startDelay();
                 } else {
                     stopDelay();
@@ -389,7 +395,7 @@ public class VerifyDataFragment extends BaseFragment {
                 }
                 break;
             case R.id.cb_stop_collect:
-                if (view.isChecked()) {
+                if (buttonView.isChecked()) {
                     mCbStartCollect.setChecked(false);
                     mCbStartCollect.setEnabled(false);
                 } else {
@@ -418,6 +424,11 @@ public class VerifyDataFragment extends BaseFragment {
 
                     @Override public void onNext(Long aLong) {
                         LogUtils.writeLogToFile(TAG, " startCollect 开始准备上传 上传次数 " + aLong);
+                        if (aLong%5==0) {
+                            //启动service 补传数据
+                            Intent intent = new Intent(getActivity(), UploadService.class);
+                            getActivity().startService(intent);
+                        }
                         uploadRecord();
                     }
                 });

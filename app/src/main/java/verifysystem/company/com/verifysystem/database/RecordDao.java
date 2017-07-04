@@ -5,6 +5,7 @@ import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
 import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.RealmClass;
 import java.util.List;
 import java.util.UUID;
 import verifysystem.company.com.verifysystem.model.RecordBean;
@@ -12,6 +13,7 @@ import verifysystem.company.com.verifysystem.model.RecordBean;
 /**
  * @author zhuj 2017/6/29 下午4:43.
  */
+@RealmClass
 public class RecordDao extends RealmObject {
 
   private final static String COLUMN_ID = "id";

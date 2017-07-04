@@ -47,6 +47,7 @@ public class AppModule {
         mHttpClientBuilder.addNetworkInterceptor(REWRITE_RESPONSE_INTERCEPTOR)
                 //.addInterceptor(LOG_INTERCEPTOR)
                 //.cache(cache)
+                .retryOnConnectionFailure(false)
                 .build();
         mOkHttpClient = mHttpClientBuilder.build();
         mRetrofit = new Retrofit.Builder().client(mOkHttpClient)

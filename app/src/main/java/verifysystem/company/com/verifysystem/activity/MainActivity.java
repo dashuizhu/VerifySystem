@@ -1,7 +1,6 @@
 package verifysystem.company.com.verifysystem.activity;
 
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -9,59 +8,53 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
-
-import android.widget.Toast;
+import de.greenrobot.event.EventBus;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+import org.apache.commons.collections.CollectionUtils;
 import rx.Observable;
 import rx.Subscriber;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 import verifysystem.company.com.verifysystem.AppApplication;
+import verifysystem.company.com.verifysystem.R;
 import verifysystem.company.com.verifysystem.connection.ConnectAction;
 import verifysystem.company.com.verifysystem.connection.agreement.CmdPackage;
 import verifysystem.company.com.verifysystem.eventbus.Event;
 import verifysystem.company.com.verifysystem.fragment.AboutFragment;
-import verifysystem.company.com.verifysystem.fragment.BaseFragment;
 import verifysystem.company.com.verifysystem.fragment.SystemSettingFragment;
 import verifysystem.company.com.verifysystem.fragment.VerifyDataFragment;
 import verifysystem.company.com.verifysystem.fragment.VerifyDeviceFragment;
 import verifysystem.company.com.verifysystem.fragment.VerifyProjectFragment;
 import verifysystem.company.com.verifysystem.global.Constant;
 import verifysystem.company.com.verifysystem.interfaces.TopTitleBarActionListener;
-import verifysystem.company.com.verifysystem.model.DeviceBean;
 import verifysystem.company.com.verifysystem.model.DeviceResult;
-import verifysystem.company.com.verifysystem.model.VerifyPorjectBean;
 import verifysystem.company.com.verifysystem.network.AppModel;
 import verifysystem.company.com.verifysystem.receiver.BatteryReceiver;
 import verifysystem.company.com.verifysystem.receiver.WifiReceiver;
-import verifysystem.company.com.verifysystem.ui.MyProgressDialog;
+import verifysystem.company.com.verifysystem.services.UploadService;
 import verifysystem.company.com.verifysystem.ui.SinkButton;
 import verifysystem.company.com.verifysystem.ui.TopTitleBar;
-
-import org.apache.commons.collections.CollectionUtils;
-
-import java.util.List;
-
-import de.greenrobot.event.EventBus;
-import verifysystem.company.com.verifysystem.R;
 import verifysystem.company.com.verifysystem.utils.SharedPreferencesUser;
 
 public class MainActivity extends BaseActivity {
-    private FragmentManager mFragMgr;
+
+  private final String TAG_VERIFY_PROJECT = "verifyProject";
+  private final String TAG_VERIFY_DATA = "verifyData";
+  private final String TAG_VERIFY_DEVICE = "verifyDevice";
+  private final String TAG_ABOUT = "about";
+  private final String TAG_SETTING = "setting";
+
+  private FragmentManager mFragMgr;
     private FragmentTransaction mTransaction;
     private VerifyProjectFragment mVerifyProjectFragment;
     private VerifyDeviceFragment mVerifyDeviceFragment;
@@ -140,6 +133,19 @@ public class MainActivity extends BaseActivity {
         registerReceiver(mWifiReceiver, wifiFilter);
 
         mFragMgr = getSupportFragmentManager();
+      if (savedInstanceState != null) {
+        mVerifyProjectFragment =
+                (VerifyProjectFragment) getSupportFragmentManager().findFragmentByTag(
+                        TAG_VERIFY_PROJECT);
+        mVerifyDeviceFragment =
+                (VerifyDeviceFragment) getSupportFragmentManager().findFragmentByTag(
+                        TAG_VERIFY_DEVICE);
+        mSystemSettingFragment =
+                (SystemSettingFragment) getSupportFragmentManager().findFragmentByTag(TAG_SETTING);
+        mAboutFragment = (AboutFragment) getSupportFragmentManager().findFragmentByTag(TAG_ABOUT);
+        mVerifyDataFragment =
+                (VerifyDataFragment) getSupportFragmentManager().findFragmentByTag(TAG_VERIFY_DATA);
+      }
         initFragment();
         initView();
         EventBus.getDefault().registerSticky(this);
@@ -151,6 +157,10 @@ public class MainActivity extends BaseActivity {
 
     private void linkLastDevice() {
         BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+      if (adapter == null) {
+        Log.e("main", "no  blue adapter");
+        return;
+      }
         if (AppApplication.getDeivceManager().getConnect().isLink()) {
             return;
         }
@@ -184,6 +194,7 @@ public class MainActivity extends BaseActivity {
     @Override protected void onSaveInstanceState(Bundle outState) {
         //记录当前的position
         outState.putInt("position", mLastItemId);
+      super.onSaveInstanceState(outState);
     }
 
     @Override public void onDestroy() {
@@ -244,11 +255,21 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initFragment() {
+      if (mVerifyProjectFragment == null) {
         mVerifyProjectFragment = new VerifyProjectFragment();
+      }
+      if (mVerifyDeviceFragment == null) {
         mVerifyDeviceFragment = new VerifyDeviceFragment();
+      }
+      if (mSystemSettingFragment == null) {
         mSystemSettingFragment = new SystemSettingFragment();
+      }
+      if (mAboutFragment == null) {
         mAboutFragment = new AboutFragment();
+      }
+      if (mVerifyDataFragment == null) {
         mVerifyDataFragment = new VerifyDataFragment();
+      }
     }
 
     public void setSelectionFragment(int itemId) {
@@ -258,26 +279,29 @@ public class MainActivity extends BaseActivity {
                 if (mVerifyProjectFragment == null) {
                     mVerifyProjectFragment = new VerifyProjectFragment();
                 }
-                addOrShowFragment(mTransaction, mVerifyProjectFragment);
+              addOrShowFragment(mTransaction, mVerifyProjectFragment, TAG_VERIFY_PROJECT);
                 linkLastDevice();
+              //启动service 补传数据
+              Intent intent = new Intent(this, UploadService.class);
+              startService(intent);
                 break;
             case Constant.ITEMID_VERIFY_EQUIPMENT:
                 if (mVerifyDeviceFragment == null) {
                     mVerifyDeviceFragment = new VerifyDeviceFragment();
                 }
-                addOrShowFragment(mTransaction, mVerifyDeviceFragment);
+              addOrShowFragment(mTransaction, mVerifyDeviceFragment, TAG_VERIFY_DEVICE);
                 break;
             case Constant.ITEMID_SYSTEM_SETTING:
                 if (mSystemSettingFragment == null) {
                     mSystemSettingFragment = new SystemSettingFragment();
                 }
-                addOrShowFragment(mTransaction, mSystemSettingFragment);
+              addOrShowFragment(mTransaction, mSystemSettingFragment, TAG_SETTING);
                 break;
             case Constant.ITEMID_ABOUT:
                 if (mAboutFragment == null) {
                     mAboutFragment = new AboutFragment();
                 }
-                addOrShowFragment(mTransaction, mAboutFragment);
+              addOrShowFragment(mTransaction, mAboutFragment, TAG_ABOUT);
                 break;
             case Constant.ITEMID_HOME_PAGER:
                 showHomePage();
@@ -313,17 +337,20 @@ public class MainActivity extends BaseActivity {
             mVerifyDataFragment = new VerifyDataFragment();
         }
         mVerifyDataFragment.setReportNo(reportNo, verifyId);
-        addOrShowFragment(mTransaction, mVerifyDataFragment);
+      addOrShowFragment(mTransaction, mVerifyDataFragment, TAG_VERIFY_DATA);
         mTransaction.commitAllowingStateLoss();
     }
 
     /**
      * 添加或者显示碎片
      */
-    private void addOrShowFragment(FragmentTransaction transaction, Fragment fragment) {
+    private void addOrShowFragment(FragmentTransaction transaction, Fragment fragment,
+            String tagName) {
         if (mCurrentFragment == null) {
             if (!fragment.isAdded()) {
-                mFragMgr.beginTransaction().add(R.id.main_container_layout, fragment).commit();
+              mFragMgr.beginTransaction()
+                      .add(R.id.main_container_layout, fragment, tagName)
+                      .commit();
                 mCurrentFragment = fragment;
             }
         }
@@ -336,7 +363,7 @@ public class MainActivity extends BaseActivity {
         }
 
         if (!fragment.isAdded()) { // 如果当前fragment未被添加，则添加到Fragment管理器中
-            transaction.hide(mCurrentFragment).add(R.id.main_container_layout, fragment);
+          transaction.hide(mCurrentFragment).add(R.id.main_container_layout, fragment, tagName);
         } else {
             transaction.hide(mCurrentFragment).show(fragment);
         }
