@@ -3,13 +3,10 @@ package verifysystem.company.com.verifysystem.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SeekBar;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
@@ -78,6 +75,9 @@ public class VerifyDeviceFragment extends BaseFragment {
         //mVerifyDeviceAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * 从服务器拉取数据， 然后跟内存中缓存的 recerd， 给到数据
+     */
     private void loadData() {
         showProgress();
         mDeviceInfoList.clear();
@@ -145,9 +145,9 @@ public class VerifyDeviceFragment extends BaseFragment {
 
                     @Override public void onNext(DeviceBean deviceBean) {
                         showToast(R.string.toast_sync_success);
-                        LogUtils.v(TAG,
+                        LogUtils.writeLogToFile(TAG,
                                 " " + deviceBean.getSnNo() + " 最新时间 " + deviceBean.getRecordBean()
-                                        .getDateMiss());
+                                        .getDate());
                         mDeviceInfoList.add(deviceBean);
                         stringBuffer.append(deviceBean.getSnNo());
                     }
@@ -162,6 +162,10 @@ public class VerifyDeviceFragment extends BaseFragment {
             EventBus.getDefault().registerSticky(this);
             if (mDeviceResult == null) {
                 loadData();
+            } else {
+                if (mVerifyDeviceAdapter!=null) {
+                    mVerifyDeviceAdapter.notifyDataSetChanged();
+                }
             }
         }
     }
@@ -179,8 +183,8 @@ public class VerifyDeviceFragment extends BaseFragment {
             }
             if (dBean.getSnNo().equals(recordEvent.getSnNo())) {
                 dBean.getRecordBean().setDate(MyDateUtils.getNow());
-                LogUtils.v(TAG,
-                        " ~~~ " + dBean.getSnNo() + " 最新时间 " + dBean.getRecordBean().getDateMiss());
+                LogUtils.writeLogToFile(TAG,
+                        " ~~~ " + dBean.getSnNo() + " 最新时间 " + dBean.getRecordBean().getDate());
                 break;
             }
         }
@@ -225,7 +229,7 @@ public class VerifyDeviceFragment extends BaseFragment {
         mRecyclerView.setAdapter(mVerifyDeviceAdapter);
     }
 
-        @OnClick(R.id.layout_sync) public void onClick () {
+    @OnClick(R.id.layout_sync) public void onClick () {
             loadData();
         }
     }

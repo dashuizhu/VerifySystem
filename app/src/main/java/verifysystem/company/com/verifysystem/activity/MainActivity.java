@@ -328,7 +328,7 @@ public class MainActivity extends BaseActivity {
         for (Fragment fragment : fragments) {
             mTransaction.hide(fragment);
         }
-        mTransaction.commit();
+        mTransaction.commitAllowingStateLoss();
     }
 
     public void showDataFragment(String reportNo, String verifyId) {
@@ -350,7 +350,7 @@ public class MainActivity extends BaseActivity {
             if (!fragment.isAdded()) {
               mFragMgr.beginTransaction()
                       .add(R.id.main_container_layout, fragment, tagName)
-                      .commit();
+                      .commitAllowingStateLoss();
                 mCurrentFragment = fragment;
             }
         }

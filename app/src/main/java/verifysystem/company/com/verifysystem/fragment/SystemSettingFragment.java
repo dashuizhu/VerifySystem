@@ -97,12 +97,12 @@ public class SystemSettingFragment extends BaseFragment {
         mDataStorageSpinner.setAdapter(mSpinnerAdapter);
         mDataDelayedSpinner.setAdapter(mSpinnerAdapter);
 
-        String collectTime = (String) SharedPreferencesUser.get(getContext(),
-                SharedPreferencesUser.KEY_TIME_COLLECT_MINUTE, "5");
-        String delayTime = (String) SharedPreferencesUser.get(getContext(),
-                SharedPreferencesUser.KEY_TIME_DELAY_MINUTE, "5");
-        mEtTimeCollect.setText(collectTime);
-        mEtTimeDelay.setText(delayTime);
+        int collectTime = (int) SharedPreferencesUser.get(getContext(),
+                SharedPreferencesUser.KEY_TIME_COLLECT_MINUTE, 5);
+        int delayTime = (int) SharedPreferencesUser.get(getContext(),
+                SharedPreferencesUser.KEY_TIME_DELAY_MINUTE, 5);
+        mEtTimeCollect.setText(String.valueOf(collectTime));
+        mEtTimeDelay.setText(String.valueOf(delayTime));
         mDataDelayedSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {

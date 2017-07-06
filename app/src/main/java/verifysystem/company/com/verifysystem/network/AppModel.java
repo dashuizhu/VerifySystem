@@ -1,17 +1,14 @@
 package verifysystem.company.com.verifysystem.network;
 
-import android.support.v4.util.ArrayMap;
 import com.google.gson.Gson;
 import java.util.List;
-import org.json.JSONArray;
+import rx.Observable;
+import rx.Subscriber;
 import verifysystem.company.com.verifysystem.AppApplication;
 import verifysystem.company.com.verifysystem.model.DeviceResult;
 import verifysystem.company.com.verifysystem.model.NetworkResult;
 import verifysystem.company.com.verifysystem.model.RecordBean;
 import verifysystem.company.com.verifysystem.model.VerifyResult;
-import rx.Observable;
-import rx.Subscriber;
-import verifysystem.company.com.verifysystem.utils.JsonUtils;
 
 /**
  * Created by zhuj on 2017/5/17 21:44.

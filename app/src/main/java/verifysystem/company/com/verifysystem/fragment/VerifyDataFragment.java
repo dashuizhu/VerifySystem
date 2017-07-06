@@ -135,7 +135,10 @@ public class VerifyDataFragment extends BaseFragment implements
     }
 
     private void initCollectBtnEnable() {
-        if (AppApplication.getDeivceManager().mWorkVerifyIdSet.contains(mVerifyId)) {
+        if (mCbStopCollect.isChecked()) {
+            return;
+        }
+        if (AppApplication.getDeivceManager().isContains(mReportNo)) {
             mCbStartCollect.setEnabled(true);
         } else {
             mCbStartCollect.setEnabled(false);

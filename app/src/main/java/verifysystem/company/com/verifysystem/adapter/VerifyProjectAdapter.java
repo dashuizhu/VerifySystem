@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.util.Set;
 import verifysystem.company.com.verifysystem.AppApplication;
 import verifysystem.company.com.verifysystem.activity.MainActivity;
 import verifysystem.company.com.verifysystem.activity.PictureShowActivity;
@@ -85,11 +87,12 @@ public class VerifyProjectAdapter extends StandardRecyclerAdapter<VerifyPorjectB
         holder.verify_control_linear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (project.isWorked()) {
+                Log.w("test", " " + getDatas().get(position).getReportName() );
+                if (getDatas().get(position).isWorked()) {
                     //project.setStatus(VerifyPorjectBean.STATUS_VERIFYED);
-                    AppApplication.getDeivceManager().mWorkVerifyIdSet.remove(mDataList.get(position).getVerifyId());
+                    AppApplication.getDeivceManager().removeIdSet(mDataList.get(position).getReportNo());
                 } else {
-                    AppApplication.getDeivceManager().mWorkVerifyIdSet.add(mDataList.get(position).getVerifyId());
+                    AppApplication.getDeivceManager().addIdSet(mDataList.get(position).getReportNo());
                     //project.setStatus(VerifyPorjectBean.STATUS_VERIFING);
                 }
                 notifyItemChanged(position);
@@ -115,7 +118,7 @@ public class VerifyProjectAdapter extends StandardRecyclerAdapter<VerifyPorjectB
                 StringBuffer stringBuffer = new StringBuffer();
                 stringBuffer.append(context.getString(R.string.text_delete)).append(position+1);
                 Toast.makeText(context,stringBuffer.toString(),Toast.LENGTH_LONG).show();
-                AppApplication.getDeivceManager().mWorkVerifyIdSet.remove(mDataList.get(position).getVerifyId());
+                AppApplication.getDeivceManager().removeIdSet(mDataList.get(position).getReportNo());
                 mDataList.remove(position);
                 notifyDataSetChanged();
             }

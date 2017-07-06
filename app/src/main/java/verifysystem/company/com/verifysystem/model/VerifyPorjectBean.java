@@ -55,7 +55,7 @@ public class VerifyPorjectBean {
     }
 
     public boolean isWorked() {
-       return AppApplication.getDeivceManager().mWorkVerifyIdSet.contains(verifyId);
+       return AppApplication.getDeivceManager().isContains(reportNo);
     }
 
 }

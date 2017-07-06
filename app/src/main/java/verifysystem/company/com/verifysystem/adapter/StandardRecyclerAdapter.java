@@ -44,4 +44,8 @@ public abstract class StandardRecyclerAdapter<T,VH extends RecyclerView.ViewHold
     public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
+
+    public List<T> getDatas() {
+        return mDataList;
+    }
 }

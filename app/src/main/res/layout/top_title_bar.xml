@@ -109,6 +109,8 @@
             android:minWidth="100dp"
             android:paddingRight="@dimen/view_padding"
             android:layout_toRightOf="@+id/tv_app_name"
+            android:drawableLeft="@mipmap/ic_blue2"
+            android:gravity="center_vertical"
             android:text="@string/label_device_unlink"
             android:textColor="@color/textWhiteColor"
             android:textSize="@dimen/top_title_large_text_size" />

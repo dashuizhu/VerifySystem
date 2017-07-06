@@ -45,10 +45,21 @@
                 />
 
             <TextView
+                android:id="@+id/tv_version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/device_number_tv"
+                android:layout_below="@+id/device_number_tv"
+                android:layout_marginTop="@dimen/minimum_margin"
+                android:textColor="@color/textWhiteColor"
+                android:textSize="@dimen/about_text_size"
+                />
+
+            <TextView
                 android:id="@+id/contact_us_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/device_number_tv"
+                android:layout_below="@+id/tv_version"
                 android:layout_marginTop="@dimen/normal_margin"
                 android:text="@string/contact_us"
                 android:textColor="@color/textWhiteColor"

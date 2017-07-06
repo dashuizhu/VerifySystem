@@ -22,7 +22,7 @@ public class AppApplication extends Application {
 
     private static AppModule mAppModule;
     private static Context mContext;
-    private static String mMainId = "00082267A660" ;//00082267A660 00082267A660
+    private static String mMainId = "" ;//00082267A660 00082267A660
     private static DeviceManager mDeviceManager;
     IConnectInterface mIConnectInterface;
 
@@ -54,7 +54,11 @@ public class AppApplication extends Application {
 
     public static String getMainId() {
         if (TextUtils.isEmpty(mMainId)) {
-            mMainId = AppUtils.getMainId(getAppContext());
+            synchronized (AppApplication.class) {
+                if (TextUtils.isEmpty(mMainId)) {
+                    mMainId = AppUtils.getMainId(getAppContext());
+                }
+            }
         }
         return mMainId;
     }

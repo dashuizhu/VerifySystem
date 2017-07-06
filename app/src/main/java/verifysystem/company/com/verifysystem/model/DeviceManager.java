@@ -31,7 +31,7 @@ public class DeviceManager {
     /**
      * 用来记录验证报告 ，是否已经开始
      */
-    public  Set<String> mWorkVerifyIdSet = new HashSet<>();
+    private  Set<String> mWorkVerifyIdSet = new HashSet<>();
 
     public void setConnectionInterface(IConnectInterface connectionInterface, Context context) {
         this.mContext = context;
@@ -111,4 +111,19 @@ public class DeviceManager {
         mDeviceBeanList.add(dBin);
     }
 
+    public boolean isContains(String verifyNo) {
+        return mWorkVerifyIdSet.contains(verifyNo);
+    }
+
+    public void removeIdSet(String verifyNo) {
+        mWorkVerifyIdSet.remove(verifyNo);
+    }
+
+    public void addIdSet(String verifyNo) {
+        mWorkVerifyIdSet.add(verifyNo);
+    }
+
+    public Set<String> getIdSet() {
+        return mWorkVerifyIdSet;
+    }
 }

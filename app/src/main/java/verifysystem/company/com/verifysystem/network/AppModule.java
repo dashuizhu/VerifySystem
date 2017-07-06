@@ -44,12 +44,11 @@ public class AppModule {
         //-------------------------------------------
         //添加拦截器，切记注意是否有特殊接口会被影响，是否需要额外处理不做拦截
         //-------------------------------------------
-        mHttpClientBuilder.addNetworkInterceptor(REWRITE_RESPONSE_INTERCEPTOR)
+        mOkHttpClient = mHttpClientBuilder.addNetworkInterceptor(REWRITE_RESPONSE_INTERCEPTOR)
                 //.addInterceptor(LOG_INTERCEPTOR)
                 //.cache(cache)
                 .retryOnConnectionFailure(false)
                 .build();
-        mOkHttpClient = mHttpClientBuilder.build();
         mRetrofit = new Retrofit.Builder().client(mOkHttpClient)
                 .baseUrl(DOMAIN)
                 .addConverterFactory(GsonConverterFactory.create())
