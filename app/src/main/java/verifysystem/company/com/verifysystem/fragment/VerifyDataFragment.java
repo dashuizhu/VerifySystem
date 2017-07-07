@@ -310,6 +310,10 @@ public class VerifyDataFragment extends BaseFragment
     mHumStartSpinner.setAdapter(mHumSpinnerAdapter);
     mHumStopSpinner.setAdapter(mHumSpinnerAdapter);
 
+    mTempStartSpinner.setSelection(0, false);
+    mTempStopSpinner.setSelection(0, false);
+    mHumStopSpinner.setSelection(0, false);
+    mHumStartSpinner.setSelection(0, false);
     mTempStartSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override
       public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

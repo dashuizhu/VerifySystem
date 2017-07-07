@@ -103,6 +103,9 @@ public class SystemSettingFragment extends BaseFragment {
                 SharedPreferencesUser.KEY_TIME_DELAY_MINUTE, 5);
         mEtTimeCollect.setText(String.valueOf(collectTime));
         mEtTimeDelay.setText(String.valueOf(delayTime));
+        //初始化 不回调
+        mDataDelayedSpinner.setSelection(0, false);
+        mDataCollectSpinner.setSelection(0, false);
         mDataDelayedSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {

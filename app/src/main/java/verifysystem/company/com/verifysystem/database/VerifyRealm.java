@@ -11,7 +11,7 @@ import io.realm.RealmMigration;
 
 public class VerifyRealm {
 
-  final static int REALM_VERSION = 0;
+  final static int REALM_VERSION = 1;
   private final static String TAG = VerifyRealm.class.getSimpleName();
 
   /**
@@ -24,9 +24,9 @@ public class VerifyRealm {
     if (userId == null || userId.isEmpty()) return;
     RealmConfiguration config = new RealmConfiguration.Builder().name(userId)
             .schemaVersion(REALM_VERSION)
-            .migration(new CustomRealmMigration())
+            //.migration(new CustomRealmMigration())
             //migration 与 delete 有冲突， 会优先执行delete
-            //.deleteRealmIfMigrationNeeded()
+            .deleteRealmIfMigrationNeeded()
             .build();
     Realm.setDefaultConfiguration(config);
     ////android debug模式下， chrome浏览器查看数据库 chrome://inspect/#devices

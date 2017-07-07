@@ -31,8 +31,6 @@ public class DeviceBean {
     private String createDate;
     private String validDate;
 
-    private long lastRecordTime;
-
     private RecordBean recordBean = new RecordBean();
 
     public boolean isOnlone() {

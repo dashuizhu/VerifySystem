@@ -14,6 +14,7 @@ import de.greenrobot.event.EventBus;
 import java.util.ArrayList;
 import java.util.List;
 import rx.Observable;
+import rx.Scheduler;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
@@ -22,9 +23,11 @@ import verifysystem.company.com.verifysystem.AppApplication;
 import verifysystem.company.com.verifysystem.R;
 import verifysystem.company.com.verifysystem.adapter.VerifyDeviceAdapter;
 import verifysystem.company.com.verifysystem.connection.agreement.CmdPackage;
+import verifysystem.company.com.verifysystem.database.RecordLastDao;
 import verifysystem.company.com.verifysystem.eventbus.Event;
 import verifysystem.company.com.verifysystem.model.DeviceBean;
 import verifysystem.company.com.verifysystem.model.DeviceResult;
+import verifysystem.company.com.verifysystem.model.RecordBean;
 import verifysystem.company.com.verifysystem.network.AppModel;
 import verifysystem.company.com.verifysystem.utils.LogUtils;
 import verifysystem.company.com.verifysystem.utils.MyDateUtils;
@@ -96,19 +99,6 @@ public class VerifyDeviceFragment extends BaseFragment {
                 })
                 .flatMap(new Func1<DeviceBean, Observable<DeviceBean>>() {
                     @Override public Observable<DeviceBean> call(DeviceBean deviceBean) {
-                        DeviceBean dBean;
-                        //更新recod信息给到列表
-                        for (int i = 0;
-                                i < AppApplication.getDeivceManager().getDeviceBeanList().size();
-                                i++) {
-                            dBean = AppApplication.getDeivceManager().getDeviceBeanList().get(i);
-                            if (TextUtils.isEmpty(dBean.getSnNo())) continue;
-                            if (dBean.getSnNo().equals(deviceBean.getSnNo())) {
-                                //将本地记录的record信息给到 列表
-                                deviceBean.setRecordBean(dBean.getRecordBean());
-                                break;
-                            }
-                        }
                         return Observable.just(deviceBean);
                     }
                 })
@@ -118,13 +108,9 @@ public class VerifyDeviceFragment extends BaseFragment {
                     @Override public void onCompleted() {
                         hideProgress();
                         mVerifyDeviceAdapter.notifyDataSetChanged();
-                        //// TODO: 2017/5/22 似乎不能发， 已发就设备部上传数据了
-                        //if (AppApplication.getDeivceManager().getConnect().isLink()) {
-                        //    AppApplication.getDeivceManager().getConnect().write(CmdPackage.setSnNo(mDeviceInfoList));
-                        //}
                         String lastDevice = (String) SharedPreferencesUser.get(getContext(),
                                 SharedPreferencesUser.KEY_LAST_DEVICE, "");
-                        //如果之前没有设置过
+                        //如果之前没有设置过白名单，就重新发送白名单
                         if (TextUtils.isEmpty(lastDevice) | !lastDevice.equals(
                                 stringBuffer.toString())) {
                             if (AppApplication.getDeivceManager().getConnect().isLink()) {
@@ -148,6 +134,10 @@ public class VerifyDeviceFragment extends BaseFragment {
                         LogUtils.writeLogToFile(TAG,
                                 " " + deviceBean.getSnNo() + " 最新时间 " + deviceBean.getRecordBean()
                                         .getDate());
+                        RecordBean rb = RecordLastDao.getBeanBySNNO(deviceBean.getSnNo());
+                        if (rb != null) {
+                            deviceBean.setRecordBean(rb);
+                        }
                         mDeviceInfoList.add(deviceBean);
                         stringBuffer.append(deviceBean.getSnNo());
                     }
@@ -163,11 +153,36 @@ public class VerifyDeviceFragment extends BaseFragment {
             if (mDeviceResult == null) {
                 loadData();
             } else {
-                if (mVerifyDeviceAdapter!=null) {
-                    mVerifyDeviceAdapter.notifyDataSetChanged();
-                }
+                refreshData();
             }
         }
+    }
+
+    /**
+     * 刷新在线时间
+     */
+    private void refreshData() {
+        if (mDeviceInfoList ==null || mDeviceInfoList.size() ==0) {
+            return;
+        }
+        Observable.from(mDeviceInfoList)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<DeviceBean>() {
+                    @Override public void onCompleted() {
+                        mVerifyDeviceAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override public void onNext(DeviceBean deviceBean) {
+                        RecordBean rb = RecordLastDao.getBeanBySNNO(deviceBean.getSnNo());
+                        if (rb != null) {
+                            deviceBean.setRecordBean(rb);
+                        }
+                    }
+                });
     }
 
     /**
@@ -185,6 +200,7 @@ public class VerifyDeviceFragment extends BaseFragment {
                 dBean.getRecordBean().setDate(MyDateUtils.getNow());
                 LogUtils.writeLogToFile(TAG,
                         " ~~~ " + dBean.getSnNo() + " 最新时间 " + dBean.getRecordBean().getDate());
+                mVerifyDeviceAdapter.notifyItemChanged(i);
                 break;
             }
         }

@@ -23,7 +23,6 @@ public class CmdPackage {
         buff[4] = (byte) list.size();
         DeviceBean deviceBean;
         byte[] buffId;
-        //// TODO: 2017/5/21 这里暂时少设置一个
         for (int i=0; i< list.size(); i++) {
             deviceBean = list.get(i);
             buff[5 + i*5 ] = (byte) Integer.parseInt(deviceBean.getNo());

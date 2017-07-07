@@ -136,6 +136,8 @@ public class BluetoothReceiver extends BroadcastReceiver {
                     @Override public void onCompleted() {
                         //如果之前没有设置过
                         String nowStr = stringBuffer.toString();
+                        String lastDevice = (String) SharedPreferencesUser.get(context,
+                                SharedPreferencesUser.KEY_LAST_DEVICE, "");
                         if (TextUtils.isEmpty(lastDevice) | !lastDevice.equals(
                                 nowStr)) {
                             if (AppApplication.getDeivceManager().getConnect().isLink()) {

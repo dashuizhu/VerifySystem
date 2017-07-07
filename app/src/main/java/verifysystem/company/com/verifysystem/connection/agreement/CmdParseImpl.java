@@ -51,10 +51,11 @@ public class CmdParseImpl implements ICmdParseInterface {
                     LogUtils.writeLogToFile(TAG, jsonStr);
                     snNo = snNo.substring(2, snNo.length());
                     //只用来保存最后时间
-                    //RecordBean rb = new RecordBean();
-                    //rb.setSnNo(snNo);
-                    //rb.setDate(MyDateUtils.getNow());
-                    //RecordLastDao.saveOrUpdate(rb);
+                    RecordBean rb = new RecordBean();
+                    rb.setSnNo(snNo);
+                    rb.setDate(MyDateUtils.getNow());
+                    RecordLastDao.saveOrUpdate(rb);
+                    rb=null;
                     //------------------------------
                     AppApplication.getDeivceManager().addOrUpdateDevice(snNo, tem, hum);
                     EventBus.getDefault().post(new Event.RecordEvent(snNo, tem, hum));
