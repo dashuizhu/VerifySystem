@@ -48,8 +48,8 @@
     <string name="verify_data_no_load">空载数据</string>
     <string name="verify_data_full_load">满载数据</string>
 
-    <string name="verify_data_temp">温度：</string>
-    <string name="verify_data_humidity">湿度：</string>
+    <string name="verify_data_temp">温度(℃)：</string>
+    <string name="verify_data_humidity">湿度(%)：</string>
     <string name="verify_data_start">开始采集</string>
     <string name="verify_data_stop">停止采集</string>
 

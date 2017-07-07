@@ -12,10 +12,10 @@ import verifysystem.company.com.verifysystem.model.RecordBean;
  * 用来保存用户相关的缓存， 登出、被踢下线、版本升级  会全部清空
  */
 public class SharedPreferencesUser {
-  public static final String KEY_MIN_TEMP = "key_min_temp_position";//最小报警温度
-  public static final String KEY_MAX_TEMP = "key_max_temp_position"; //最大报警温度
-  public static final String KEY_MIN_HUM = "key_min_hum_position";//最小报警湿度
-  public static final String KEY_MAX_HUM = "key_max_hum_position";//最大报警湿度
+  public static final String KEY_MIN_TEMP = "key_min_temp_value";//最小报警温度
+  public static final String KEY_MAX_TEMP = "key_max_temp_value"; //最大报警温度
+  public static final String KEY_MIN_HUM = "key_min_hum_value";//最小报警湿度
+  public static final String KEY_MAX_HUM = "key_max_hum_value";//最大报警湿度
   /**
    * 保存在手机里面的文件名
    */

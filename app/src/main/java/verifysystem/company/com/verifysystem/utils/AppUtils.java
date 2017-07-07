@@ -7,6 +7,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.EditText;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
@@ -87,5 +88,17 @@ public class AppUtils {
             e.printStackTrace();
         }
         return version;
+    }
+
+    /**
+     * 输入框 光标移动到最后一个文字处
+     */
+    public static void initSelecton(EditText et) {
+        if (et != null) {
+            String str = et.getText().toString();
+            if (str.length() > 0) {
+                et.setSelection(str.length());
+            }
+        }
     }
 }
