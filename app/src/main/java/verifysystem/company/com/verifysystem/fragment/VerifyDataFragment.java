@@ -245,6 +245,7 @@ public class VerifyDataFragment extends BaseFragment
   //        case R.id.verifydata_normal_rb:
   //            type = RecordBean.TYPE_NORMAL;
   //            break;
+  //            break;
   //        case R.id.verify_data_opendoor_rb:
   //            type = RecordBean.TYPE_OPEN;
   //            break;
@@ -523,6 +524,7 @@ public class VerifyDataFragment extends BaseFragment
                 }
 
                 @Override public void onError(Throwable e) {
+                  e.printStackTrace();
                   showToast(e.getMessage());
                   RecordDao.saveOrUpdates(allRecordBeanList);
                 }

@@ -24,8 +24,8 @@ android {
         applicationId "verifysystem.company.com.verifysystem"
         minSdkVersion 17
         targetSdkVersion 22
-        versionCode 6
-        versionName "1.05"
+        versionCode 7
+        versionName "1.06"
     }
     buildTypes {
         release {

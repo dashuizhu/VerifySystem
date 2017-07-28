@@ -121,9 +121,9 @@ public class AppModel {
             }
         }
 
-        Gson gson = new Gson();
-        String jsonArray = gson.toJson(array);
-        return httpApi.postDeivceRecord(jsonArray);
+        //Gson gson = new Gson();
+        //String asd = gson.toJson(list);
+        return httpApi.postDeivceRecord(array.toString());
     }
 
     private long getDate(List<RecordBean> list) {
