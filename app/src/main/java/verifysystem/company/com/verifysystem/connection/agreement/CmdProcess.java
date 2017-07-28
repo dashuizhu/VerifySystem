@@ -40,6 +40,15 @@ public class CmdProcess {
         if (command == null || length == 0) {
             return;
         }
+        //解析数据达到缓存值时处理
+        byte[] newArray;
+        if (data_index +length >=1024) {
+            newArray = new byte[100];
+            System.arraycopy(data_command, data_index-100, newArray, 0, 100);
+            data_command = new byte[1024];
+            System.arraycopy(newArray, 0, data_command, 0, 100);
+            data_index = 100;
+        }
         System.arraycopy(command, 0, data_command, data_index, length);
         data_index += length;
         LogUtils.i(TAG, "收到数据~:" + MyHexUtils.buffer2String(command, length));

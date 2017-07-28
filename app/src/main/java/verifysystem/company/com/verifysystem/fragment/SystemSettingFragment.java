@@ -98,7 +98,7 @@ public class SystemSettingFragment extends BaseFragment {
         mDataDelayedSpinner.setAdapter(mSpinnerAdapter);
 
         int collectTime = (int) SharedPreferencesUser.get(getContext(),
-                SharedPreferencesUser.KEY_TIME_COLLECT_MINUTE, 5);
+                SharedPreferencesUser.KEY_TIME_COLLECT_MINUTE, 1);
         int delayTime = (int) SharedPreferencesUser.get(getContext(),
                 SharedPreferencesUser.KEY_TIME_DELAY_MINUTE, 5);
         mEtTimeCollect.setText(String.valueOf(collectTime));

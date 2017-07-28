@@ -485,7 +485,7 @@ public class VerifyDataFragment extends BaseFragment
    */
   private void startCollect() {
     int collectTime = (int) SharedPreferencesUser.get(getContext(),
-            SharedPreferencesUser.KEY_TIME_COLLECT_MINUTE, 5);
+            SharedPreferencesUser.KEY_TIME_COLLECT_MINUTE, 1);
     LogUtils.d(TAG, " 开始Collect 间隔时间分钟 " + collectTime);
     mCollectSubscription =
             Observable.interval(collectTime, TimeUnit.MINUTES).subscribe(new Subscriber<Long>() {
@@ -500,7 +500,7 @@ public class VerifyDataFragment extends BaseFragment
               @Override public void onNext(Long aLong) {
                 LogUtils.writeLogToFile(TAG, " startCollect 开始准备上传 上传次数 " + aLong);
                 if (aLong % 5 == 0) {
-                  //启动service 补传数据
+                  //5次，启动一次service 补传数据
                   Intent intent = new Intent(getActivity(), UploadService.class);
                   getActivity().startService(intent);
                 }

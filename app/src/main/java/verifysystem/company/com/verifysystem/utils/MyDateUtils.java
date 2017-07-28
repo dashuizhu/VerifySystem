@@ -11,6 +11,7 @@ import java.util.Date;
 public class MyDateUtils {
 
     private static SimpleDateFormat mSdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static SimpleDateFormat mSdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:00");
 
     public static String getNow() {
         return mSdf.format(new Date()).toString();
@@ -26,5 +27,9 @@ public class MyDateUtils {
             e.printStackTrace();
         }
         return 0L;
+    }
+
+    public static String getTime(long time) {
+        return mSdf2.format(new Date(time));
     }
 }
