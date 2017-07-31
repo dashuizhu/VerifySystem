@@ -106,6 +106,7 @@ public class AppModel {
         long time = getDate(list);
         for (int i=0; i<list.size(); i++) {
             bean = list.get(i);
+            if (!bean.isOnlone()) continue;
             try {
                 obj = new JSONObject();
                 obj.put("snNo", bean.getSnNo());

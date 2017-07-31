@@ -5,6 +5,7 @@ import android.support.v4.text.TextUtilsCompat;
 import android.text.TextUtils;
 import android.widget.TextView;
 import lombok.Data;
+import verifysystem.company.com.verifysystem.global.Constant;
 import verifysystem.company.com.verifysystem.utils.MyDateUtils;
 
 /**
@@ -41,6 +42,12 @@ public class RecordBean {
 
     public long getDateMiss() {
         return MyDateUtils.getLong(date);
+    }
+
+    public boolean isOnlone() {
+        long now = System.currentTimeMillis();
+        long timeRece = getDateMiss();
+        return (now -timeRece) < Constant.DATE_TIME_OUT;
     }
 
 }

@@ -151,6 +151,10 @@ public class MainActivity extends BaseActivity {
         EventBus.getDefault().registerSticky(this);
 
         linkLastDevice();
+
+        int coloetTime = (int) SharedPreferencesUser.get(this, SharedPreferencesUser.KEY_TIME_COLLECT_MINUTE, 1);
+        Constant.DATE_TIME_OUT = coloetTime * 2 * 60 * 1000 +10000;
+
         //test
         //showFragmentPage(R.id.home_verify_equipment_management_btn);
     }

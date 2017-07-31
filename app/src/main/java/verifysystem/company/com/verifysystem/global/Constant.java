@@ -22,7 +22,7 @@ public class Constant {
     /**
      * 在线状态最大的超时时间， 收到数据时间 与当前时间 的最大间隔
      */
-    public static final long DATE_TIME_OUT  =  10 *60 *1000;
+    public static long DATE_TIME_OUT  =  10 *60 *1000;
     /**
      * 连接超时时间,
      */

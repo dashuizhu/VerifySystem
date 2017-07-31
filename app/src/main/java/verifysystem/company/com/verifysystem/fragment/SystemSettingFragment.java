@@ -25,6 +25,7 @@ import verifysystem.company.com.verifysystem.AppApplication;
 import verifysystem.company.com.verifysystem.R;
 import verifysystem.company.com.verifysystem.connection.agreement.CmdPackage;
 import verifysystem.company.com.verifysystem.eventbus.Event;
+import verifysystem.company.com.verifysystem.global.Constant;
 import verifysystem.company.com.verifysystem.utils.SharedPreferencesUser;
 
 /**
@@ -153,6 +154,7 @@ public class SystemSettingFragment extends BaseFragment {
                     }
                     SharedPreferencesUser.put(getContext(),
                             SharedPreferencesUser.KEY_TIME_COLLECT_MINUTE, time);
+                    Constant.DATE_TIME_OUT = time * 2 * 60 * 1000 +10000;
                     AppApplication.getDeivceManager()
                             .getConnect()
                             .write(CmdPackage.setCollectTime(time));
