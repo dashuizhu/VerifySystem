@@ -63,6 +63,10 @@ public class VerifyProjectFragment extends BaseFragment {
     }
 
     private void loadData() {
+        //if (!AppUtils.isNetworkAvailable(getContext())) {
+        //    showToast(R.string.toast_network_error);
+        //    return;
+        //}
         showProgress();
         mAppModel.getVerifyList(AppApplication.getMainId())
                 .subscribeOn(Schedulers.io())
@@ -74,7 +78,11 @@ public class VerifyProjectFragment extends BaseFragment {
 
                     @Override public void onError(Throwable e) {
                         hideProgress();
-                        showToast(e.getMessage());
+                        //if (e instanceof CustomException) {
+                            showToast(e.getMessage());
+                        //} else {
+                        //    showToast(R.string.toast_network_error);
+                        //}
                     }
 
                     @Override public void onNext(VerifyResult verifyResult) {

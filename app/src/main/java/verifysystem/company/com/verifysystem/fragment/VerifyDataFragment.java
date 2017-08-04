@@ -48,6 +48,7 @@ import verifysystem.company.com.verifysystem.network.CustomException;
 import verifysystem.company.com.verifysystem.services.UploadService;
 import verifysystem.company.com.verifysystem.utils.AppUtils;
 import verifysystem.company.com.verifysystem.utils.LogUtils;
+import verifysystem.company.com.verifysystem.utils.MyDateUtils;
 import verifysystem.company.com.verifysystem.utils.SharedPreferencesUser;
 
 /**
@@ -116,7 +117,30 @@ public class VerifyDataFragment extends BaseFragment
     //启动service 补传数据
     Intent intent = new Intent(getContext(), UploadService.class);
     getActivity().startService(intent);
+    //testReceiveRecord();
     return rootView;
+  }
+
+  /**
+   * 模拟收到测试数据
+   */
+  private void testReceiveRecord() {
+    Observable.interval(20, TimeUnit.SECONDS).subscribe(new Action1<Long>() {
+      @Override public void call(Long aLong) {
+        String snNo ;
+        if (aLong %4 == 0) {
+          snNo = "54004700";
+        } else if (aLong%4== 1) {
+          snNo = "34003100";
+        } else if (aLong%4 == 2) {
+          snNo = "6B004D00";
+        } else {
+          snNo = "00000000";
+        }
+        AppApplication.getDeivceManager().addOrUpdateDevice(snNo, 20+aLong, 20+aLong);
+        addRecordList(snNo);
+      }
+    });
   }
 
   @Override public void onHiddenChanged(boolean hidden) {
@@ -194,6 +218,7 @@ public class VerifyDataFragment extends BaseFragment
   private void addRecordList(final String deviceSnNo) {
     if (TextUtils.isEmpty(deviceSnNo)) return;
     Observable.from(AppApplication.getDeivceManager().getDeviceBeanList())
+            //.observeOn(AndroidSchedulers.mainThread())
             .subscribe(new Subscriber<DeviceBean>() {
               @Override public void onCompleted() {
                 mVerifyDataAdapter.notifyDataSetChanged();
@@ -406,17 +431,6 @@ public class VerifyDataFragment extends BaseFragment
     mVerifyDataAdapter.notifyDataSetChanged();
   }
 
-  //private void loadDataByTwoGroup(int itemId) {
-  //    switch (itemId) {
-  //        case R.id.verify_data_no_load_rb:
-  //            break;
-  //        case R.id.verify_data_full_load_rb:
-  //            break;
-  //        default:
-  //            break;
-  //    }
-  //}
-
   @OnClick({
           R.id.temp_confirm_btn, R.id.hum_confirm_btn
   }) public void onClick(View view) {
@@ -515,6 +529,10 @@ public class VerifyDataFragment extends BaseFragment
    */
   private void uploadRecord() {
     if (allRecordBeanList != null && allRecordBeanList.size() > 0) {
+      String strTime = MyDateUtils.getTime(System.currentTimeMillis());
+      for (RecordBean rb : allRecordBeanList) {
+        rb.setUploadTime(strTime);
+      }
       mAppModel.uploadData(allRecordBeanList)
               .subscribeOn(Schedulers.io())
               .observeOn(AndroidSchedulers.mainThread())

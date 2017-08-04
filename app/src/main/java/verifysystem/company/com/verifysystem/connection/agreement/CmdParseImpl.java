@@ -55,7 +55,6 @@ public class CmdParseImpl implements ICmdParseInterface {
                     rb.setSnNo(snNo);
                     rb.setDate(MyDateUtils.getNow());
                     RecordLastDao.saveOrUpdate(rb);
-                    rb=null;
                     //------------------------------
                     AppApplication.getDeivceManager().addOrUpdateDevice(snNo, tem, hum);
                     EventBus.getDefault().post(new Event.RecordEvent(snNo, tem, hum));

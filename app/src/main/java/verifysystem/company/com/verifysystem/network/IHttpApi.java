@@ -1,6 +1,7 @@
 package verifysystem.company.com.verifysystem.network;
 
 import retrofit2.http.Field;
+import retrofit2.http.Headers;
 import verifysystem.company.com.verifysystem.model.DeviceResult;
 import verifysystem.company.com.verifysystem.model.NetworkResult;
 import verifysystem.company.com.verifysystem.model.VerifyResult;
@@ -19,6 +20,9 @@ public interface IHttpApi {
     /**
      * 获取主机验证信息
      */
+    @Headers({
+            "Connection:close"
+    })
     @GET("guidedevice/deviceController/verifyList") Observable<VerifyResult> getVerifyList(
             @Query("mainFrameId") String mainFrameId);
 
@@ -26,12 +30,18 @@ public interface IHttpApi {
     /**
      * 获取所有设备列表
      */
+    @Headers({
+            "Connection:close"
+    })
     @GET("guidedevice/deviceController/deviceList") Observable<DeviceResult> getDeviceList(
             @Query("mainFrameId") String mainFrameId);
 
     /**
      * 获取验证对象关联设备列表
      */
+    @Headers({
+            "Connection:close"
+    })
     @GET("guidedevice/deviceController/verifyDeviceList") Observable<DeviceResult> getVerifyDeviceList(
             @Query("verifyId") String verifyId, @Query("verifyType") String verifyType);
 

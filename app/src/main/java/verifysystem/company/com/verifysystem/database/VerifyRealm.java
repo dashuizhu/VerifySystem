@@ -11,7 +11,7 @@ import io.realm.RealmMigration;
 
 public class VerifyRealm {
 
-  final static int REALM_VERSION = 1;
+  final static int REALM_VERSION = 2;
   private final static String TAG = VerifyRealm.class.getSimpleName();
 
   /**

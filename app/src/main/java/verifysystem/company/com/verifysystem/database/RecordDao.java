@@ -26,6 +26,7 @@ public class RecordDao extends RealmObject {
   private float voltage;//电压
   private String date;
   private int style;
+  private String uploadTime; //上传时间
 
   public static void saveOrUpdate(final RecordBean bean) {
     Realm realm = Realm.getDefaultInstance();
@@ -55,6 +56,7 @@ public class RecordDao extends RealmObject {
       recordDao.humidity = bean.getHumidity();
       recordDao.date = bean.getDate();
       recordDao.temperature = bean.getTemperature();
+      recordDao.uploadTime = bean.getUploadTime();
       try {
         realm.copyToRealmOrUpdate(recordDao);
       } catch (Exception e) {
@@ -121,6 +123,7 @@ public class RecordDao extends RealmObject {
     dao.humidity = bean.getHumidity();
     dao.voltage = bean.getVoltage();
     dao.temperature = bean.getTemperature();
+    dao.uploadTime = bean.getUploadTime();
     return dao;
   }
 
@@ -135,6 +138,7 @@ public class RecordDao extends RealmObject {
     bean.setHumidity(humidity);
     bean.setVoltage(voltage);
     bean.setTemperature(temperature);
+    bean.setUploadTime(uploadTime);
     return bean;
   }
 

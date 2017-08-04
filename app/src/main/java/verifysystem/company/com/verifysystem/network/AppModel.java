@@ -1,6 +1,7 @@
 package verifysystem.company.com.verifysystem.network;
 
 import android.text.format.DateUtils;
+import android.util.Log;
 import com.google.gson.Gson;
 import java.util.List;
 import org.json.JSONArray;
@@ -55,6 +56,7 @@ public class AppModel {
                     }
 
                     @Override public void onError(Throwable e) {
+                        e.printStackTrace();
                         subscriber.onError(e);
                     }
 
@@ -103,7 +105,8 @@ public class AppModel {
         JSONArray array = new JSONArray();
         JSONObject obj;
         RecordBean bean;
-        long time = getDate(list);
+        //long time = getDate(list);
+        //Log.w("timetest", " "+ time);
         for (int i=0; i<list.size(); i++) {
             bean = list.get(i);
             if (!bean.isOnlone()) continue;
@@ -114,7 +117,7 @@ public class AppModel {
                 obj.put("temperature", bean.getTemperature());
                 obj.put("humidity", bean.getHumidity());
                 obj.put("voltage", bean.getVoltage());
-                obj.put("date", MyDateUtils.getTime(time));
+                obj.put("date", bean.getUploadTime());
                 obj.put("style", bean.getStyle());
                 array.put(obj);
             } catch (Exception e) {

@@ -44,7 +44,8 @@ public class AppModule {
         //-------------------------------------------
         //添加拦截器，切记注意是否有特殊接口会被影响，是否需要额外处理不做拦截
         //-------------------------------------------
-        mOkHttpClient = mHttpClientBuilder.addNetworkInterceptor(REWRITE_RESPONSE_INTERCEPTOR)
+        mOkHttpClient = mHttpClientBuilder
+                //.addNetworkInterceptor(REWRITE_RESPONSE_INTERCEPTOR)
                 //.addInterceptor(LOG_INTERCEPTOR)
                 //.cache(cache)
                 .retryOnConnectionFailure(false)
@@ -82,32 +83,32 @@ public class AppModule {
     /**
      * 拦截器
      */
-    private static final Interceptor REWRITE_RESPONSE_INTERCEPTOR = new Interceptor() {
-        @Override public Response intercept(Chain chain) throws IOException {
-            Request originalRequest = chain.request();
-            Request.Builder request = originalRequest.newBuilder();
-            request.addHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-            if (originalRequest.header("fresh") != null) {
-                request.cacheControl(CacheControl.FORCE_NETWORK);
-            }
-            Response originalResponse = chain.proceed(chain.request());
-            String cacheControl = originalResponse.header("Cache-Control");
-
-            if ((cacheControl == null
-                    || cacheControl.contains("no-store")
-                    || cacheControl.contains("no-cache")
-                    || cacheControl.contains("must-revalidate")
-                    || cacheControl.contains("max-age=0"))
-                    && originalRequest.header("CacheControlMaxAge") != null) {
-                return originalResponse.newBuilder()
-                        .header("Cache-Control",
-                                "public, max-age=" + originalRequest.header("CacheControlMaxAge"))
-                        .build();
-            } else {
-                return originalResponse;
-            }
-        }
-    };
+    //private static final Interceptor REWRITE_RESPONSE_INTERCEPTOR = new Interceptor() {
+    //    @Override public Response intercept(Chain chain) throws IOException {
+    //        Request originalRequest = chain.request();
+    //        Request.Builder request = originalRequest.newBuilder();
+    //        request.addHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+    //        if (originalRequest.header("fresh") != null) {
+    //            request.cacheControl(CacheControl.FORCE_NETWORK);
+    //        }
+    //        Response originalResponse = chain.proceed(chain.request());
+    //        String cacheControl = originalResponse.header("Cache-Control");
+    //
+    //        if ((cacheControl == null
+    //                || cacheControl.contains("no-store")
+    //                || cacheControl.contains("no-cache")
+    //                || cacheControl.contains("must-revalidate")
+    //                || cacheControl.contains("max-age=0"))
+    //                && originalRequest.header("CacheControlMaxAge") != null) {
+    //            return originalResponse.newBuilder()
+    //                    .header("Cache-Control",
+    //                            "public, max-age=" + originalRequest.header("CacheControlMaxAge"))
+    //                    .build();
+    //        } else {
+    //            return originalResponse;
+    //        }
+    //    }
+    //};
 
     private static boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) AppApplication.getAppContext()

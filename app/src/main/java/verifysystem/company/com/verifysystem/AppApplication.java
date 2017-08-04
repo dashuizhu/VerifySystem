@@ -22,7 +22,7 @@ public class AppApplication extends Application {
 
     private static AppModule mAppModule;
     private static Context mContext;
-    private static String mMainId = "" ;//00082267A660 00082267A660
+    private static String mMainId = "" ;//483C0C56B12F 00082267A660
     private static DeviceManager mDeviceManager;
     IConnectInterface mIConnectInterface;
 

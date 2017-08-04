@@ -11,6 +11,8 @@ import java.util.UUID;
 import verifysystem.company.com.verifysystem.model.RecordBean;
 
 /**
+ * 用来记录数据的最后报告时间， 用于判断在线
+ * 感觉有点多余， 可直接用内存中保存的时间的。 为了保险，记录到数据库中
  * @author zhuj 2017/6/29 下午4:43.
  */
 @RealmClass

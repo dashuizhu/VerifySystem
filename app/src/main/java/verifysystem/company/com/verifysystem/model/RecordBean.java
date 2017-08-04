@@ -35,6 +35,7 @@ public class RecordBean {
     private float humidity;
     private float voltage;//电压
     private String date;
+    private String uploadTime;//上传时间
     @RECORD_TYPE private int style;
 
     @IntDef ({TYPE_NORMAL, TYPE_OPEN, TYPE_BLACK_OUT})

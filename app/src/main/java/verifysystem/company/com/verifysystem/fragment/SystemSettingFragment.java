@@ -154,7 +154,7 @@ public class SystemSettingFragment extends BaseFragment {
                     }
                     SharedPreferencesUser.put(getContext(),
                             SharedPreferencesUser.KEY_TIME_COLLECT_MINUTE, time);
-                    Constant.DATE_TIME_OUT = time * 2 * 60 * 1000 +10000;
+                    Constant.DATE_TIME_OUT = time * 3 * 60 * 1000 +10000;
                     AppApplication.getDeivceManager()
                             .getConnect()
                             .write(CmdPackage.setCollectTime(time));

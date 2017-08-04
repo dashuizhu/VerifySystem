@@ -151,4 +151,5 @@
     <string name="toast_sync_empty">同步成功，数据为空</string>
     <string name="toast_time_error">时间不能小于1分钟</string>
     <string name="toast_time_empty_error">不能为空</string>
+    <string name="toast_network_error">网络失败</string>
 </resources>

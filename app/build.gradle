@@ -24,8 +24,8 @@ android {
         applicationId "verifysystem.company.com.verifysystem"
         minSdkVersion 17
         targetSdkVersion 22
-        versionCode 8
-        versionName "1.07"
+        versionCode 9
+        versionName "1.08"
     }
     buildTypes {
         release {
@@ -43,6 +43,13 @@ android {
             storePassword '13823080515'
         }
     }
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def oldFile = output.outputFile
+                def releaseApkName = 'verifySystem_v' + defaultConfig.versionName + '.apk'
+                output.outputFile = new File(oldFile.parent, releaseApkName)
+        }
+    }
 }
 
 dependencies {
@@ -54,13 +61,13 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'com.android.support:appcompat-v7:22.+'
 
-    compile 'com.squareup.retrofit2:retrofit:2.0.1'
-    compile 'com.squareup.retrofit2:converter-gson:2.0.1'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.1'
-    compile 'com.squareup.okhttp3:okhttp:3.0.1'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.0.1'
-    compile 'io.reactivex:rxandroid:1.1.0'
-    compile 'io.reactivex:rxjava:1.1.3'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    compile 'com.squareup.okhttp3:okhttp:3.5.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.5.0'
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'io.reactivex:rxjava:1.1.9'
     // And ProGuard rules for RxJava!
     compile 'com.artemzin.rxjava:proguard-rules:1.1.3.0'
     //Required by Dagger2
