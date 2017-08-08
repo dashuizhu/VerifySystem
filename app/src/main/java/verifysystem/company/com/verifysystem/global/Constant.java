@@ -28,4 +28,11 @@ public class Constant {
      */
     public static final long DEVICE_LINK_TIME_OUT = 15;
 
+    public static void setTimeOut(int time) {
+        if (time <2) {
+            time  = 2;
+        }
+        DATE_TIME_OUT = time * 3 * 60 * 1000 + 60000;
+    }
+
 }

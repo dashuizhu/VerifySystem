@@ -263,24 +263,6 @@ public class VerifyDataFragment extends BaseFragment
     mVerifyDataAdapter.notifyDataSetChanged();
   }
 
-  //private int getRecordStyle() {
-  //    int checkId = mRadioOneGroup.getCheckedRadioButtonId();
-  //    int type = 0;
-  //    switch (checkId) {
-  //        case R.id.verifydata_normal_rb:
-  //            type = RecordBean.TYPE_NORMAL;
-  //            break;
-  //            break;
-  //        case R.id.verify_data_opendoor_rb:
-  //            type = RecordBean.TYPE_OPEN;
-  //            break;
-  //        case R.id.verify_data_outage_rb:
-  //            type = RecordBean.TYPE_BLACK_OUT;
-  //            break;
-  //    }
-  //    return type;
-  //}
-
   private void initData() {
     if (mAppModel == null) {
       mAppModel = new AppModel();
@@ -530,10 +512,14 @@ public class VerifyDataFragment extends BaseFragment
   private void uploadRecord() {
     if (allRecordBeanList != null && allRecordBeanList.size() > 0) {
       String strTime = MyDateUtils.getTime(System.currentTimeMillis());
+      List<RecordBean> list = new ArrayList<>();
       for (RecordBean rb : allRecordBeanList) {
         rb.setUploadTime(strTime);
+        if (rb.isOnlone()) {
+          list.add(rb);
+        }
       }
-      mAppModel.uploadData(allRecordBeanList)
+      mAppModel.uploadData(list)
               .subscribeOn(Schedulers.io())
               .observeOn(AndroidSchedulers.mainThread())
               .subscribe(new Subscriber<NetworkResult>() {

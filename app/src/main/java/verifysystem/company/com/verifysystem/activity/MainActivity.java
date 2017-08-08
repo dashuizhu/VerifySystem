@@ -153,7 +153,7 @@ public class MainActivity extends BaseActivity {
         linkLastDevice();
 
         int coloetTime = (int) SharedPreferencesUser.get(this, SharedPreferencesUser.KEY_TIME_COLLECT_MINUTE, 1);
-        Constant.DATE_TIME_OUT = coloetTime * 3 * 60 * 1000 +10000;
+        Constant.setTimeOut(coloetTime);
 
         //test
         //showFragmentPage(R.id.home_verify_equipment_management_btn);
