@@ -341,7 +341,7 @@ public class MainActivity extends BaseActivity {
             mVerifyDataFragment = new VerifyDataFragment();
         }
         mVerifyDataFragment.setReportNo(reportNo, verifyId);
-      addOrShowFragment(mTransaction, mVerifyDataFragment, TAG_VERIFY_DATA);
+        addOrShowFragment(mTransaction, mVerifyDataFragment, TAG_VERIFY_DATA);
         mTransaction.commitAllowingStateLoss();
     }
 

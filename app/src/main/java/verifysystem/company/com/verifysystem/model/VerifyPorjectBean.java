@@ -1,6 +1,5 @@
 package verifysystem.company.com.verifysystem.model;
 
-import android.support.annotation.IntDef;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import verifysystem.company.com.verifysystem.AppApplication;
@@ -45,6 +44,7 @@ public class VerifyPorjectBean {
     //})
     //public @interface DEVICE_STATUS{}
 
+
     public int getVerifyTypeInt() {
         try {
             return Integer.parseInt(verifyType);
@@ -56,6 +56,10 @@ public class VerifyPorjectBean {
 
     public boolean isWorked() {
        return AppApplication.getDeivceManager().isContains(reportNo);
+    }
+
+    public int getCollectStatus() {
+        return AppApplication.getDeivceManager().getCollectStatus(reportNo);
     }
 
 }

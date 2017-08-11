@@ -28,6 +28,10 @@ public class Constant {
      */
     public static final long DEVICE_LINK_TIME_OUT = 15;
 
+    public static final int TIME_DELAY_DEFAULT = 5;
+    public static final int TIME_COLLECT_DEFAULT = 1;
+
+
     public static void setTimeOut(int time) {
         if (time <2) {
             time  = 2;

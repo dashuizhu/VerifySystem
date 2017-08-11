@@ -2,7 +2,7 @@ package verifysystem.company.com.verifysystem.fragment;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +27,7 @@ import verifysystem.company.com.verifysystem.model.DeviceResult;
 import verifysystem.company.com.verifysystem.model.VerifyPorjectBean;
 import verifysystem.company.com.verifysystem.model.VerifyResult;
 import verifysystem.company.com.verifysystem.network.AppModel;
+import verifysystem.company.com.verifysystem.ui.MyAlertDialog;
 
 /**
  * Created by hasee on 2017/4/15.
@@ -173,6 +174,8 @@ public class VerifyProjectFragment extends BaseFragment {
 
     /**
      * 获得验证报告的  设备列表，并且跳转页面
+     *
+     * 如果已经有在采集的报告， 要判断两个报告是否有 重复的  测点
      */
     public void loadVerifyDeviceList(final VerifyPorjectBean verifyPorjectBean) {
         if (mAppModel == null) {
@@ -186,6 +189,7 @@ public class VerifyProjectFragment extends BaseFragment {
         }
         showProgress();
 
+        final List<String> conflictList = new ArrayList<>();
         mVerifyDeviceSubscription = mAppModel.getVerifyDeviceList(verifyPorjectBean.getVerifyId(), verifyPorjectBean.getVerifyType())
                 .flatMap(new Func1<DeviceResult, Observable<DeviceBean>>() {
                     @Override public Observable<DeviceBean> call(DeviceResult deviceResult) {
@@ -197,20 +201,53 @@ public class VerifyProjectFragment extends BaseFragment {
                 .subscribe(new Subscriber<DeviceBean>() {
                     @Override public void onCompleted() {
                         hideProgress();
-                        ((MainActivity)getContext()).showDataFragment(verifyPorjectBean.getReportNo(),
-                                verifyPorjectBean.getVerifyId());
+
+                        if (conflictList.size() >0) {
+                            //有冲突
+                            showDeviceConflict(conflictList);
+                        } else {
+                            //没有冲突 ， 直接跳转页面
+                            ((MainActivity)getContext()).showDataFragment(verifyPorjectBean.getReportNo(),
+                                    verifyPorjectBean.getVerifyId());
+                        }
                     }
 
                     @Override public void onError(Throwable e) {
                         hideProgress();
-                        showToast(e.getMessage());
+                        if (!TextUtils.isEmpty(e.getMessage())) {
+                            showToast(e.getMessage());
+                        }
                     }
 
                     @Override public void onNext(DeviceBean deviceBean) {
+                        if (TextUtils.isEmpty(deviceBean.getSnNo())) {
+                            return;
+                        }
+                        //这里要做节点冲突判断
+                        DeviceBean dbin = AppApplication.getDeivceManager().getDevcieBeanBySn(deviceBean.getSnNo());
+                        if (!TextUtils.isEmpty(dbin.getReportNo())) {
+                            //节点已经 在其他报告了， 并且报告正在采集工作中
+                            if (AppApplication.getDeivceManager().isCollectWork(dbin.getReportNo())) {
+                                conflictList.add(dbin.getSnNo());
+                                return;
+                            }
+                        }
                         AppApplication.getDeivceManager()
                                 .updateDevice(deviceBean, verifyPorjectBean.getReportNo());
                     }
                 });
     }
 
+    private void showDeviceConflict(List<String> list) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(getString(R.string.label_conflict_device));
+        for (String sn: list) {
+            sb.append(sn);
+            sb.append("\r\n");
+        }
+        MyAlertDialog dialog = new MyAlertDialog(getContext(), "提示", sb.toString());
+        dialog.show();
+
+
+    }
 }

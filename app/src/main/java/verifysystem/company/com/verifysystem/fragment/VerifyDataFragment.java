@@ -1,10 +1,14 @@
 package verifysystem.company.com.verifysystem.fragment;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,27 +33,23 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import rx.Observable;
 import rx.Subscriber;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 import verifysystem.company.com.verifysystem.AppApplication;
 import verifysystem.company.com.verifysystem.R;
 import verifysystem.company.com.verifysystem.activity.MainActivity;
 import verifysystem.company.com.verifysystem.adapter.VerifyDataAdapter;
-import verifysystem.company.com.verifysystem.database.RecordDao;
 import verifysystem.company.com.verifysystem.eventbus.Event;
 import verifysystem.company.com.verifysystem.global.Constant;
 import verifysystem.company.com.verifysystem.model.DeviceBean;
-import verifysystem.company.com.verifysystem.model.NetworkResult;
 import verifysystem.company.com.verifysystem.model.RecordBean;
 import verifysystem.company.com.verifysystem.network.AppModel;
-import verifysystem.company.com.verifysystem.network.CustomException;
+import verifysystem.company.com.verifysystem.services.CollectService;
 import verifysystem.company.com.verifysystem.services.UploadService;
 import verifysystem.company.com.verifysystem.utils.AppUtils;
 import verifysystem.company.com.verifysystem.utils.LogUtils;
-import verifysystem.company.com.verifysystem.utils.MyDateUtils;
 import verifysystem.company.com.verifysystem.utils.SharedPreferencesUser;
+
+import static android.content.Context.BIND_AUTO_CREATE;
 
 /**
  * Created by hasee on 2017/5/05.
@@ -87,8 +87,6 @@ public class VerifyDataFragment extends BaseFragment
   private AppModel mAppModel;
   private List<RecordBean> allRecordBeanList = new ArrayList<>();
 
-  private Subscription mDelaySubscription;
-  private Subscription mCollectSubscription;
   private String mReportNo;
   private String mVerifyId;
   //private Set<String> mDeviceSet = new HashSet<>(); //用来记录蓝牙收到的snNo集合
@@ -96,6 +94,8 @@ public class VerifyDataFragment extends BaseFragment
   private Unbinder mUnbinder;
 
   private long mLastClickId;
+
+  private CollectService mCollectService;
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -121,27 +121,19 @@ public class VerifyDataFragment extends BaseFragment
     return rootView;
   }
 
-  /**
-   * 模拟收到测试数据
-   */
-  private void testReceiveRecord() {
-    Observable.interval(20, TimeUnit.SECONDS).subscribe(new Action1<Long>() {
-      @Override public void call(Long aLong) {
-        String snNo ;
-        if (aLong %4 == 0) {
-          snNo = "54004700";
-        } else if (aLong%4== 1) {
-          snNo = "34003100";
-        } else if (aLong%4 == 2) {
-          snNo = "6B004D00";
-        } else {
-          snNo = "00000000";
-        }
-        AppApplication.getDeivceManager().addOrUpdateDevice(snNo, 20+aLong, 20+aLong);
-        addRecordList(snNo);
-      }
-    });
-  }
+  private ServiceConnection mServiceConnection = new ServiceConnection() {
+    @Override public void onServiceConnected(ComponentName name, IBinder service) {
+      Log.d(TAG, name + " onServiceConnected ");
+      mCollectService = ((CollectService.CollectBind) service).getService();
+    }
+
+    @Override public void onServiceDisconnected(ComponentName name) {
+      Log.d(TAG, name + " onServiceDisconnected ");
+      mCollectService = null;
+      Intent collectService = new Intent(getContext(), CollectService.class);
+      getContext().bindService(collectService, mServiceConnection, BIND_AUTO_CREATE);
+    }
+  };
 
   @Override public void onHiddenChanged(boolean hidden) {
     super.onHiddenChanged(hidden);
@@ -163,15 +155,26 @@ public class VerifyDataFragment extends BaseFragment
     this.mVerifyId = verifyId;
   }
 
-  private void initCollectBtnEnable() {
-    if (mCbStopCollect.isChecked()) {
-      return;
-    }
-    if (AppApplication.getDeivceManager().isContains(mReportNo)) {
-      mCbStartCollect.setEnabled(true);
-    } else {
-      mCbStartCollect.setEnabled(false);
-    }
+  /**
+   * 模拟收到测试数据
+   */
+  private void testReceiveRecord() {
+    Observable.interval(20, TimeUnit.SECONDS).subscribe(new Action1<Long>() {
+      @Override public void call(Long aLong) {
+        String snNo;
+        if (aLong % 4 == 0) {
+          snNo = "54004700";
+        } else if (aLong % 4 == 1) {
+          snNo = "34003100";
+        } else if (aLong % 4 == 2) {
+          snNo = "6B004D00";
+        } else {
+          snNo = "00000000";
+        }
+        AppApplication.getDeivceManager().addOrUpdateDevice(snNo, 20 + aLong, 20 + aLong);
+        addRecordList(snNo);
+      }
+    });
   }
 
   public void onEventMainThread(final Event.RecordEvent recordEvent) {
@@ -411,13 +414,40 @@ public class VerifyDataFragment extends BaseFragment
         break;
     }
     mVerifyDataAdapter.notifyDataSetChanged();
+    //开关门，都要停止所有工作
+    AppApplication.getDeivceManager().cleanCollectWork();
+  }
+
+  private void initCollectBtnEnable() {
+    int status = AppApplication.getDeivceManager().getCollectStatus(mReportNo);
+    switch (status) {
+      case 0://初始状态
+        mCbStartCollect.setChecked(false);
+        mCbStopCollect.setChecked(false);
+        break;
+      case 1://采集工作状态
+        mCbStopCollect.setChecked(false);
+        mCbStartCollect.setChecked(true);
+        break;
+      case 2://停止采集
+        mCbStartCollect.setChecked(false);
+        mCbStopCollect.setChecked(true);
+        //不可以点击
+        mCbStartCollect.setEnabled(false);
+        return;
+    }
+    if (AppApplication.getDeivceManager().isContains(mReportNo)) {
+      mCbStartCollect.setEnabled(true);
+    } else {
+      mCbStartCollect.setEnabled(false);
+    }
   }
 
   @OnClick({
           R.id.temp_confirm_btn, R.id.hum_confirm_btn
   }) public void onClick(View view) {
-    int max ;
-    int min ;
+    int max;
+    int min;
     switch (view.getId()) {
       case R.id.temp_confirm_btn:
         if (TextUtils.isEmpty(mEtTempMax.getText().toString())) {
@@ -447,7 +477,7 @@ public class VerifyDataFragment extends BaseFragment
         }
         max = Integer.parseInt(mEtHumMax.getText().toString());
         min = Integer.parseInt(mEtHumMin.getText().toString());
-        if (min>=max) {
+        if (min >= max) {
           showToast(R.string.toast_must_bigger_min);
           return;
         }
@@ -463,87 +493,23 @@ public class VerifyDataFragment extends BaseFragment
           startDelay();
         } else {
           stopDelay();
-          stopCollect();
+          AppApplication.getDeivceManager().putCollectStatus(mReportNo, 0);
         }
         break;
       case R.id.cb_stop_collect:
         if (buttonView.isChecked()) {
           mCbStartCollect.setChecked(false);
           mCbStartCollect.setEnabled(false);
+          AppApplication.getDeivceManager().putCollectStatus(mReportNo, 2);
         } else {
-          initCollectBtnEnable();
+          AppApplication.getDeivceManager().putCollectStatus(mReportNo, 0);
+           if (AppApplication.getDeivceManager().isContains(mReportNo)) {
+             mCbStartCollect.setEnabled(true);
+           } else {
+             mCbStartCollect.setEnabled(false);
+            }
         }
         break;
-    }
-  }
-
-  /**
-   * 开始定时上传
-   */
-  private void startCollect() {
-    int collectTime = (int) SharedPreferencesUser.get(getContext(),
-            SharedPreferencesUser.KEY_TIME_COLLECT_MINUTE, 1);
-    LogUtils.d(TAG, " 开始Collect 间隔时间分钟 " + collectTime);
-    mCollectSubscription =
-            Observable.interval(collectTime, TimeUnit.MINUTES).subscribe(new Subscriber<Long>() {
-              @Override public void onCompleted() {
-
-              }
-
-              @Override public void onError(Throwable throwable) {
-
-              }
-
-              @Override public void onNext(Long aLong) {
-                LogUtils.writeLogToFile(TAG, " startCollect 开始准备上传 上传次数 " + aLong);
-                if (aLong % 5 == 0) {
-                  //5次，启动一次service 补传数据
-                  Intent intent = new Intent(getActivity(), UploadService.class);
-                  getActivity().startService(intent);
-                }
-                uploadRecord();
-              }
-            });
-  }
-
-  /**
-   * 开始上传
-   */
-  private void uploadRecord() {
-    if (allRecordBeanList != null && allRecordBeanList.size() > 0) {
-      String strTime = MyDateUtils.getTime(System.currentTimeMillis());
-      List<RecordBean> list = new ArrayList<>();
-      for (RecordBean rb : allRecordBeanList) {
-        rb.setUploadTime(strTime);
-        if (rb.isOnlone()) {
-          list.add(rb);
-        }
-      }
-      mAppModel.uploadData(list)
-              .subscribeOn(Schedulers.io())
-              .observeOn(AndroidSchedulers.mainThread())
-              .subscribe(new Subscriber<NetworkResult>() {
-                @Override public void onCompleted() {
-
-                }
-
-                @Override public void onError(Throwable e) {
-                  e.printStackTrace();
-                  showToast(e.getMessage());
-                  RecordDao.saveOrUpdates(allRecordBeanList);
-                }
-
-                @Override public void onNext(NetworkResult networkResult) {
-                  if (networkResult.isNetworkSuccess()) {
-                    if (!getActivity().isFinishing()) {
-                      showToast(R.string.toast_upload_success);
-                    }
-                  } else {
-                    onError(new CustomException(networkResult.getType(),
-                            networkResult.getMessage()));
-                  }
-                }
-              });
     }
   }
 
@@ -552,35 +518,10 @@ public class VerifyDataFragment extends BaseFragment
    */
   private void startDelay() {
     getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-    int delayTime = (int) SharedPreferencesUser.get(getContext(),
-            SharedPreferencesUser.KEY_TIME_DELAY_MINUTE, 5);
-    LogUtils.d(TAG, " 开始延时任务 时间分钟 " + delayTime);
-    mDelaySubscription =
-            Observable.timer(delayTime, TimeUnit.MINUTES).subscribe(new Action1<Long>() {
-              @Override public void call(Long aLong) {
-                startCollect();
-              }
-            });
-  }
-
-  private void stopDelay() {
-    getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-    LogUtils.d(TAG, "停止延时任务");
-    if (mDelaySubscription != null) {
-      if (!mDelaySubscription.isUnsubscribed()) {
-        mDelaySubscription.unsubscribe();
-      }
-      mDelaySubscription = null;
-    }
-  }
-
-  private void stopCollect() {
-    LogUtils.d(TAG, "停止上传任务");
-    if (mCollectSubscription != null) {
-      if (!mCollectSubscription.isUnsubscribed()) {
-        mCollectSubscription.unsubscribe();
-      }
-      mCollectSubscription = null;
+    AppApplication.getDeivceManager().putCollectStatus(mReportNo, 1);
+    if (mCollectService == null) {
+      Intent collectService = new Intent(getContext(), CollectService.class);
+      getContext().bindService(collectService, mServiceConnection, BIND_AUTO_CREATE);
     }
   }
 
@@ -624,6 +565,13 @@ public class VerifyDataFragment extends BaseFragment
     if (allRecordBeanList != null) {
       allRecordBeanList.clear();
       mVerifyDataAdapter.notifyDataSetChanged();
+    }
+  }
+
+  private void stopDelay() {
+    getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    if (AppApplication.getDeivceManager().isCollectWork()) {
+      getContext().unbindService(mServiceConnection);
     }
   }
 }

@@ -34,6 +34,7 @@ public class DeviceBean {
     private RecordBean recordBean = new RecordBean();
 
     public boolean isOnlone() {
+        if (recordBean == null) return false;
         long now = System.currentTimeMillis();
         long timeRece = recordBean.getDateMiss();
         return (now -timeRece) < Constant.DATE_TIME_OUT;
