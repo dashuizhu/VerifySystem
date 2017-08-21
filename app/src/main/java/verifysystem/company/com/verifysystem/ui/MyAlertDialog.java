@@ -46,7 +46,9 @@ public class MyAlertDialog extends Dialog {
   @OnClick({R.id.tv_tips_confirm }) public void onViewClicked(View view) {
     switch (view.getId()) {
       case R.id.tv_tips_confirm:
-        mOnOkClickListener.clickConfirm();
+        if (mOnOkClickListener != null) {
+          mOnOkClickListener.clickConfirm();
+        }
         dismiss();
         break;
     }

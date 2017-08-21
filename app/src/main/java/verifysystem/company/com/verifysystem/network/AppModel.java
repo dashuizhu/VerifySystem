@@ -30,6 +30,7 @@ public class AppModel {
                     }
 
                     @Override public void onError(Throwable e) {
+                        e.printStackTrace();
                         subscriber.onError(e);
                     }
 
@@ -83,6 +84,7 @@ public class AppModel {
                     }
 
                     @Override public void onError(Throwable e) {
+                        e.printStackTrace();
                         subscriber.onError(e);
                     }
 

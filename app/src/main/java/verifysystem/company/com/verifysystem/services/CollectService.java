@@ -76,7 +76,7 @@ public class CollectService extends Service {
   }
 
   private void stopCollect() {
-    Log.w(TAG, " 停止采集工作");
+    LogUtils.e(TAG, " 停止采集工作");
     if (mSubscription != null) {
       if (!mSubscription.isUnsubscribed()) {
         mSubscription.unsubscribe();
@@ -86,8 +86,9 @@ public class CollectService extends Service {
   }
 
   private void startCollectWork() {
-    Log.d(TAG, " 开始任务 ");
-    mSubscription = Observable.interval(1, TimeUnit.SECONDS).subscribe(new Subscriber<Long>() {
+    LogUtils.d(TAG, " 开始任务 ");
+    // TODO: 2017/8/13 测试模式修改时间
+    mSubscription = Observable.interval(1, TimeUnit.MINUTES).subscribe(new Subscriber<Long>() {
       @Override public void onCompleted() {
 
       }
@@ -103,7 +104,7 @@ public class CollectService extends Service {
                 SharedPreferencesUser.KEY_TIME_DELAY_MINUTE, Constant.TIME_COLLECT_DEFAULT);
 
         if (aLong <= delayTime) {
-          Log.d(TAG, " is onDelay time" + aLong + " / " + delayTime);
+          LogUtils.d(TAG, " is onDelay time" + aLong + " / " + delayTime);
           return;
         }
         if (aLong % 5 == 0) {
@@ -121,7 +122,7 @@ public class CollectService extends Service {
           LogUtils.writeLogToFile(TAG, " startCollect 开始准备上传 上传次数 " + aLong);
           uploadRecord();
         } else {
-          Log.d(TAG, " ont onCollect time" + aLong + " / " + delayTime + " " + collectTime);
+          LogUtils.d(TAG, " ont onCollect time" + aLong + " / " + delayTime + " " + collectTime);
         }
       }
     });

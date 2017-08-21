@@ -152,5 +152,6 @@
     <string name="toast_time_error">时间不能小于1分钟</string>
     <string name="toast_time_empty_error">不能为空</string>
     <string name="toast_network_error">网络失败</string>
-    <string name="label_conflict_device">以下测点已经在其他报告进行采集工作，请去后台修改，或者关闭工作，可进入查看。\n</string>
+    <string name="label_conflict_device">以下测点已经在其他报告进行采集工作，请去后台修改。\n</string>
+    <string name="toast_project_collect_size_max">最多只能同时采集两份报告</string>
 </resources>

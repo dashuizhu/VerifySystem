@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import rx.Observable;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import verifysystem.company.com.verifysystem.AppApplication;
 import verifysystem.company.com.verifysystem.R;
@@ -117,6 +118,8 @@ public class VerifyDataFragment extends BaseFragment
     //启动service 补传数据
     Intent intent = new Intent(getContext(), UploadService.class);
     getActivity().startService(intent);
+
+    // TODO: 2017/8/13 测试模式
     //testReceiveRecord();
     return rootView;
   }
@@ -159,14 +162,18 @@ public class VerifyDataFragment extends BaseFragment
    * 模拟收到测试数据
    */
   private void testReceiveRecord() {
-    Observable.interval(20, TimeUnit.SECONDS).subscribe(new Action1<Long>() {
+    Observable.interval(15, TimeUnit.SECONDS).subscribe(new Action1<Long>() {
       @Override public void call(Long aLong) {
         String snNo;
-        if (aLong % 4 == 0) {
+        if (aLong % 6 == 0) {
+          snNo = "34003900";
+        } else if (aLong % 6 == 1) {
+          snNo = "54005400";
+        } else if (aLong % 6 == 2) {
           snNo = "54004700";
-        } else if (aLong % 4 == 1) {
+        } else if (aLong % 6 == 3) {
           snNo = "34003100";
-        } else if (aLong % 4 == 2) {
+        } else if (aLong % 6 == 4) {
           snNo = "6B004D00";
         } else {
           snNo = "00000000";
@@ -221,7 +228,7 @@ public class VerifyDataFragment extends BaseFragment
   private void addRecordList(final String deviceSnNo) {
     if (TextUtils.isEmpty(deviceSnNo)) return;
     Observable.from(AppApplication.getDeivceManager().getDeviceBeanList())
-            //.observeOn(AndroidSchedulers.mainThread())
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe(new Subscriber<DeviceBean>() {
               @Override public void onCompleted() {
                 mVerifyDataAdapter.notifyDataSetChanged();
@@ -490,7 +497,13 @@ public class VerifyDataFragment extends BaseFragment
     switch (buttonView.getId()) {
       case R.id.cb_start_collect:
         if (buttonView.isChecked()) {
-          startDelay();
+          //最多只能同时验证两份报告
+          if (AppApplication.getDeivceManager().getCollectWorkSize() >=2) {
+            showToast(R.string.toast_project_collect_size_max);
+            buttonView.setChecked(false);
+          } else {
+            startDelay();
+          }
         } else {
           stopDelay();
           AppApplication.getDeivceManager().putCollectStatus(mReportNo, 0);
@@ -522,6 +535,8 @@ public class VerifyDataFragment extends BaseFragment
     if (mCollectService == null) {
       Intent collectService = new Intent(getContext(), CollectService.class);
       getContext().bindService(collectService, mServiceConnection, BIND_AUTO_CREATE);
+    } else {
+      mCollectService.startCollect();
     }
   }
 
@@ -570,8 +585,10 @@ public class VerifyDataFragment extends BaseFragment
 
   private void stopDelay() {
     getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-    if (AppApplication.getDeivceManager().isCollectWork()) {
-      getContext().unbindService(mServiceConnection);
+    if (!AppApplication.getDeivceManager().isCollectWork()) { //没有在工作的
+      if (mServiceConnection != null) {
+        getContext().unbindService(mServiceConnection);
+      }
     }
   }
 }

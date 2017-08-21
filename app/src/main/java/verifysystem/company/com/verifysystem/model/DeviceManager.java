@@ -128,9 +128,13 @@ public class DeviceManager {
      * @return
      */
     public DeviceBean getDevcieBeanBySn(String snNo) {
+        if (TextUtils.isEmpty(snNo)) return null;
         DeviceBean deviceBean;
         for (int i=0; i<mDeviceBeanList.size(); i++) {
             deviceBean = mDeviceBeanList.get(i);
+            if (TextUtils.isEmpty(deviceBean.getSnNo())) {
+                continue;
+            }
             if (deviceBean.getSnNo().equals(snNo)) {
                 return deviceBean;
             }
@@ -198,7 +202,7 @@ public class DeviceManager {
     public void cleanCollectWork() {
         Set<String> keySet =mCollectStatus.keySet();
         Iterator<String> iterable = keySet.iterator();
-        if (iterable.hasNext()) {
+        while (iterable.hasNext()) {
             String key = iterable.next();
             //如果在工作状态，就停止
             if (isCollectWork(key)) {
@@ -206,4 +210,22 @@ public class DeviceManager {
             }
         }
     }
+
+    /**
+     * 获得验证报告 ，同时工作的个数
+     * @return
+     */
+  public int getCollectWorkSize() {
+      int workSize =0;
+      Set<String> keySet =mCollectStatus.keySet();
+      Iterator<String> iterable = keySet.iterator();
+      if (iterable.hasNext()) {
+          String key = iterable.next();
+          //如果在工作状态，就停止
+          if (isCollectWork(key)) {
+              workSize ++;
+          }
+      }
+    return workSize;
+  }
 }
